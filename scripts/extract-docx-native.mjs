@@ -70,7 +70,6 @@ function extractMediaFromDocx(docxPath) {
   return results
 }
 
-console.log('[Script Started] extract-docx-native.mjs running...')
 // 1. Processar Desenhos para Colorir
 const coloringDocx = path.join(rootDir, 'src/assets/desenhos-para-colorir-9a71e.docx')
 const coloringOutDir = path.join(rootDir, 'public/desenhos-colorir')
@@ -117,7 +116,6 @@ if (fs.existsSync(coloringDocx)) {
     path.join(coloringOutDir, 'desenhos.json'),
     JSON.stringify(coloringList, null, 2),
   )
-  console.log(`[Coloring] Processed ${coloringList.length} coloring pages`)
 }
 
 // 2. Processar Lesão Zero e Fortalecimento
@@ -175,10 +173,9 @@ if (fs.existsSync(lesaoDocx)) {
     idx++
   }
   fs.writeFileSync(path.join(lesaoOutDir, 'lesao-zero.json'), JSON.stringify(lesaoList, null, 2))
-  console.log(`[Lesão Zero] Processed ${lesaoList.length} cards`)
 }
 
-// 3. Processar Preparação para o Campeonato (PDF)
+// 3. Processar Preparação para o Campeonato (PDF das 20 páginas ilustradas)
 const championshipPdf = path.join(rootDir, 'src/assets/preparacao-para-o-campeonato-0cbdf.pdf')
 const championshipOutDir = path.join(rootDir, 'public/campeonato')
 if (!fs.existsSync(championshipOutDir)) {
@@ -187,13 +184,6 @@ if (!fs.existsSync(championshipOutDir)) {
 
 if (fs.existsSync(championshipPdf)) {
   const buf = fs.readFileSync(championshipPdf)
-  let pos = 0
-  const extractedImages = []
-  // No PDF, streams podem ser /Filter /DCTDecode (JPEG) ou /Filter /FlateDecode
-  // Vamos buscar por "/Filter/DCTDecode" ou "/Filter /DCTDecode" ou objetos stream
-  // e também streams JPEG diretos
-  console.log(`[Championship] PDF size: ${buf.length}`)
-  fs.writeFileSync(path.join(rootDir, 'public/campeonato/test.txt'), 'hello from script')
   const str = buf.toString('latin1')
   const streamStarts = []
   let spos = 0
@@ -203,9 +193,6 @@ if (fs.existsSync(championshipPdf)) {
     streamStarts.push(idx)
     spos = idx + 6
   }
-  console.log(`[Championship] Total 'stream' tokens: ${streamStarts.length}`)
-  const pageMatches = [...str.matchAll(/\/Type\s*\/Page\b/g)]
-  console.log(`[Championship] /Type /Page matches: ${pageMatches.length}`)
 
   const images = []
   for (let i = 0; i < streamStarts.length; i++) {
@@ -213,33 +200,209 @@ if (fs.existsSync(championshipPdf)) {
     const header = str.slice(Math.max(0, s - 300), s)
     if (header.includes('/Subtype/Image') || header.includes('/Subtype /Image')) {
       const isJpeg = header.includes('/DCTDecode')
-      const isFlate = header.includes('/FlateDecode')
       const widthMatch = header.match(/\/Width\s+(\d+)/)
       const heightMatch = header.match(/\/Height\s+(\d+)/)
       const lengthMatch = header.match(/\/Length\s+(\d+)/)
       images.push({
-        idx: i,
         pos: s,
         isJpeg,
-        isFlate,
         width: widthMatch ? widthMatch[1] : '?',
         height: heightMatch ? heightMatch[1] : '?',
-        length: lengthMatch ? lengthMatch[1] : '?',
-        header: header.replace(/\r?\n/g, ' '),
+        length: lengthMatch ? lengthMatch[1] : '0',
       })
     }
   }
-  console.log(`[Championship] Total /Subtype /Image streams: ${images.length}`)
 
-  // Extract all 20 JPEG images
-  // Cada stream JPEG começa com FF D8 FF dentro do stream
+  const pranchasInfo = [
+    {
+      num: 1,
+      title: 'Manual do Campeonato de Jiu-Jitsu Kids',
+      subtitle: 'Guia ilustrado para crianças e pais',
+      category: 'Capa & Apresentação',
+      badge: 'Manual Oficial',
+      filename: 'campeonato-01.jpg',
+      downloadName: 'campeonato-01-manual-alexis-jiu-jitsu.jpg',
+    },
+    {
+      num: 2,
+      title: 'Entendendo o Campeonato',
+      subtitle: 'Aprender, competir e se divertir',
+      category: 'Valores & Estrutura',
+      badge: 'Etapas',
+      filename: 'campeonato-02.jpg',
+      downloadName: 'campeonato-02-entendendo-o-campeonato-alexis.jpg',
+    },
+    {
+      num: 3,
+      title: 'Checklist do Campeonato',
+      subtitle: 'Tudo pronto para competir com tranquilidade',
+      category: 'Organização',
+      badge: 'Mochila Pronta',
+      filename: 'campeonato-03.jpg',
+      downloadName: 'campeonato-03-checklist-alexis-jiu-jitsu.jpg',
+    },
+    {
+      num: 4,
+      title: 'Antes da Luta',
+      subtitle: 'Como funciona a entrada no campeonato',
+      category: 'Chegada & Pesagem',
+      badge: 'Concentração',
+      filename: 'campeonato-04.jpg',
+      downloadName: 'campeonato-04-antes-da-luta-alexis.jpg',
+    },
+    {
+      num: 5,
+      title: 'Como se Comportar na Luta',
+      subtitle: 'Respeito e atenção em primeiro lugar',
+      category: 'Regras & Postura',
+      badge: 'Atitude de Campeão',
+      filename: 'campeonato-05.jpg',
+      downloadName: 'campeonato-05-como-se-comportar-alexis.jpg',
+    },
+    {
+      num: 6,
+      title: 'Como Marcar Pontos',
+      subtitle: 'Entenda de forma simples',
+      category: 'Pontuação & Arbitragem',
+      badge: 'Queda, Raspagem, Guarda & Montada',
+      filename: 'campeonato-06.jpg',
+      downloadName: 'campeonato-06-como-marcar-pontos-alexis.jpg',
+    },
+    {
+      num: 7,
+      title: 'Competir com Cuidado',
+      subtitle: 'Saúde e proteção sempre',
+      category: 'Segurança & Saúde',
+      badge: 'Cuidado & Proteção',
+      filename: 'campeonato-07.jpg',
+      downloadName: 'campeonato-07-competir-com-cuidado-alexis.jpg',
+    },
+    {
+      num: 8,
+      title: 'Cabeça Forte no Campeonato',
+      subtitle: 'Ganhar e aprender fazem parte',
+      category: 'Mente Forte & Emoções',
+      badge: 'Inteligência Emocional',
+      filename: 'campeonato-08.jpg',
+      downloadName: 'campeonato-08-cabeca-forte-alexis.jpg',
+    },
+    {
+      num: 9,
+      title: 'Guia para os Pais: Como Apoiar seu Filho',
+      subtitle: 'Presença, calma e incentivo fazem diferença',
+      category: 'Guia da Família',
+      badge: 'Apoio dos Pais',
+      filename: 'campeonato-09.jpg',
+      downloadName: 'campeonato-09-apoio-dos-pais-alexis.jpg',
+    },
+    {
+      num: 10,
+      title: 'Passo a Passo do Grande Dia',
+      subtitle: 'Do início ao fim com confiança',
+      category: 'Dia da Luta',
+      badge: 'Roteiro Completo',
+      filename: 'campeonato-10.jpg',
+      downloadName: 'campeonato-10-passo-a-passo-alexis.jpg',
+    },
+    {
+      num: 11,
+      title: '30 Dias Antes: Preparação para o Campeonato',
+      subtitle: 'Organização, rotina e metas claras',
+      category: 'Planejamento 30 Dias',
+      badge: 'Cronograma',
+      filename: 'campeonato-11.jpg',
+      downloadName: 'campeonato-11-30-dias-antes-alexis.jpg',
+    },
+    {
+      num: 12,
+      title: 'A Última Semana: Revisão, Descanso e Ajustes',
+      subtitle: 'Chegar leve e preparado é melhor do que cansado',
+      category: 'Semana Final',
+      badge: '7 Dias Finais',
+      filename: 'campeonato-12.jpg',
+      downloadName: 'campeonato-12-a-ultima-semana-alexis.jpg',
+    },
+    {
+      num: 13,
+      title: 'Peso, Alimentação e Hidratação',
+      subtitle: 'Energia boa e controle saudável',
+      category: 'Nutrição & Peso',
+      badge: 'Peso Saudável',
+      filename: 'campeonato-13.jpg',
+      downloadName: 'campeonato-13-peso-alimentacao-alexis.jpg',
+    },
+    {
+      num: 14,
+      title: 'Treino Técnico Inteligente',
+      subtitle: 'Repetição com qualidade',
+      category: 'Técnica & Estratégia',
+      badge: 'Base, Pegada & Queda',
+      filename: 'campeonato-14.jpg',
+      downloadName: 'campeonato-14-treino-tecnico-alexis.jpg',
+    },
+    {
+      num: 15,
+      title: 'Preparação Física para Kids',
+      subtitle: 'Coordenação, mobilidade e prevenção',
+      category: 'Físico & Mobilidade',
+      badge: 'Corpo Preparado',
+      filename: 'campeonato-15.jpg',
+      downloadName: 'campeonato-15-preparacao-fisica-alexis.jpg',
+    },
+    {
+      num: 16,
+      title: 'Regras, Pontos e Faltas',
+      subtitle: 'Entender as regras ajuda a lutar melhor',
+      category: 'Regras Oficiais',
+      badge: 'Pontos & Penalidades',
+      filename: 'campeonato-16.jpg',
+      downloadName: 'campeonato-16-regras-pontos-faltas-alexis.jpg',
+    },
+    {
+      num: 17,
+      title: 'Aquecimento Pré-Luta',
+      subtitle: 'Ativar o corpo e focar a mente',
+      category: 'Aquecimento Específico',
+      badge: 'Sequência 15 min',
+      filename: 'campeonato-17.jpg',
+      downloadName: 'campeonato-17-aquecimento-pre-luta-alexis.jpg',
+    },
+    {
+      num: 18,
+      title: 'Estratégia de Luta',
+      subtitle: 'Pensar a luta ajuda a competir melhor',
+      category: 'Tática & Planos',
+      badge: 'Plano A, B e C',
+      filename: 'campeonato-18.jpg',
+      downloadName: 'campeonato-18-estrategia-de-luta-alexis.jpg',
+    },
+    {
+      num: 19,
+      title: 'Cabeça Forte e Recuperação',
+      subtitle: 'Controle emocional e energia para continuar',
+      category: 'Pós-Luta & Mente',
+      badge: 'Entre Lutas',
+      filename: 'campeonato-19.jpg',
+      downloadName: 'campeonato-19-recuperacao-alexis.jpg',
+    },
+    {
+      num: 20,
+      title: 'Guia Técnico para os Pais',
+      subtitle: 'Apoio certo antes, durante e depois',
+      category: 'Guia Técnico Pais',
+      badge: 'Comunicação Familiar',
+      filename: 'campeonato-20.jpg',
+      downloadName: 'campeonato-20-guia-tecnico-pais-alexis.jpg',
+    },
+  ]
+
+  const manifest = []
   for (let i = 0; i < images.length; i++) {
     const im = images[i]
     let sStart = im.pos + 6
     if (buf[sStart] === 0x0d && buf[sStart + 1] === 0x0a) sStart += 2
     else if (buf[sStart] === 0x0a || buf[sStart] === 0x0d) sStart += 1
 
-    // Achar o primeiro FF D8 após sStart
     let jpegStart = sStart
     while (jpegStart < sStart + 50 && !(buf[jpegStart] === 0xff && buf[jpegStart + 1] === 0xd8)) {
       jpegStart++
@@ -257,248 +420,34 @@ if (fs.existsSync(championshipPdf)) {
       sEnd--
     }
     const imgData = buf.subarray(jpegStart, sEnd)
-    extractedImages.push({
-      width: im.width,
-      height: im.height,
-      data: imgData,
-    })
-  }
-  console.log(`[Championship] Extracted ${extractedImages.length} images`)
-  for (let k = 0; k < extractedImages.length; k++) {
-    const im = extractedImages[k]
-    console.log(
-      `Extracted img ${k}: len=${im.data.length}, SOI=${im.data[0]?.toString(16)} ${im.data[1]?.toString(16)}`,
-    )
-  }
-
-  // Títulos das 20 pranchas do PDF
-  const pranchasInfo = [
-    {
-      num: 1,
-      title: 'Manual do Campeonato de Jiu-Jitsu Kids',
-      subtitle: 'Guia ilustrado para crianças e pais',
-      category: 'Capa & Apresentação',
-      badge: 'Manual Oficial',
-      filename: 'campeonato-01-manual-capa.jpg',
-      downloadName: 'campeonato-01-manual-alexis-jiu-jitsu.jpg',
-    },
-    {
-      num: 2,
-      title: 'Entendendo o Campeonato',
-      subtitle: 'Aprender, competir e se divertir',
-      category: 'Valores & Estrutura',
-      badge: 'Etapas',
-      filename: 'campeonato-02-entendendo-o-campeonato.jpg',
-      downloadName: 'campeonato-02-entendendo-o-campeonato-alexis.jpg',
-    },
-    {
-      num: 3,
-      title: 'Checklist do Campeonato',
-      subtitle: 'Tudo pronto para competir com tranquilidade',
-      category: 'Organização',
-      badge: 'Mochila Pronta',
-      filename: 'campeonato-03-checklist-do-campeonato.jpg',
-      downloadName: 'campeonato-03-checklist-alexis-jiu-jitsu.jpg',
-    },
-    {
-      num: 4,
-      title: 'Antes da Luta',
-      subtitle: 'Como funciona a entrada no campeonato',
-      category: 'Chegada & Pesagem',
-      badge: 'Concentração',
-      filename: 'campeonato-04-antes-da-luta.jpg',
-      downloadName: 'campeonato-04-antes-da-luta-alexis.jpg',
-    },
-    {
-      num: 5,
-      title: 'Como se Comportar na Luta',
-      subtitle: 'Respeito e atenção em primeiro lugar',
-      category: 'Regras & Postura',
-      badge: 'Atitude de Campeão',
-      filename: 'campeonato-05-comportamento-na-luta.jpg',
-      downloadName: 'campeonato-05-como-se-comportar-alexis.jpg',
-    },
-    {
-      num: 6,
-      title: 'Como Marcar Pontos',
-      subtitle: 'Entenda de forma simples',
-      category: 'Pontuação & Arbitragem',
-      badge: 'Queda, Raspagem, Guarda & Montada',
-      filename: 'campeonato-06-como-marcar-pontos.jpg',
-      downloadName: 'campeonato-06-como-marcar-pontos-alexis.jpg',
-    },
-    {
-      num: 7,
-      title: 'Competir com Cuidado',
-      subtitle: 'Saúde e proteção sempre',
-      category: 'Segurança & Saúde',
-      badge: 'Cuidado & Proteção',
-      filename: 'campeonato-07-competir-com-cuidado.jpg',
-      downloadName: 'campeonato-07-competir-com-cuidado-alexis.jpg',
-    },
-    {
-      num: 8,
-      title: 'Cabeça Forte no Campeonato',
-      subtitle: 'Ganhar e aprender fazem parte',
-      category: 'Mente Forte & Emoções',
-      badge: 'Inteligência Emocional',
-      filename: 'campeonato-08-cabeca-forte-no-campeonato.jpg',
-      downloadName: 'campeonato-08-cabeca-forte-alexis.jpg',
-    },
-    {
-      num: 9,
-      title: 'Guia para os Pais: Como Apoiar seu Filho',
-      subtitle: 'Presença, calma e incentivo fazem diferença',
-      category: 'Guia da Família',
-      badge: 'Apoio dos Pais',
-      filename: 'campeonato-09-como-apoiar-seu-filho.jpg',
-      downloadName: 'campeonato-09-apoio-dos-pais-alexis.jpg',
-    },
-    {
-      num: 10,
-      title: 'Passo a Passo do Grande Dia',
-      subtitle: 'Do início ao fim com confiança',
-      category: 'Dia da Luta',
-      badge: 'Roteiro Completo',
-      filename: 'campeonato-10-passo-a-passo-grande-dia.jpg',
-      downloadName: 'campeonato-10-passo-a-passo-alexis.jpg',
-    },
-    {
-      num: 11,
-      title: '30 Dias Antes: Preparação para o Campeonato',
-      subtitle: 'Organização, rotina e metas claras',
-      category: 'Planejamento 30 Dias',
-      badge: 'Cronograma',
-      filename: 'campeonato-11-preparacao-30-dias-antes.jpg',
-      downloadName: 'campeonato-11-30-dias-antes-alexis.jpg',
-    },
-    {
-      num: 12,
-      title: 'A Última Semana: Revisão, Descanso e Ajustes',
-      subtitle: 'Chegar leve e preparado é melhor do que cansado',
-      category: 'Semana Final',
-      badge: '7 Dias Finais',
-      filename: 'campeonato-12-a-ultima-semana.jpg',
-      downloadName: 'campeonato-12-a-ultima-semana-alexis.jpg',
-    },
-    {
-      num: 13,
-      title: 'Peso, Alimentação e Hidratação',
-      subtitle: 'Energia boa e controle saudável',
-      category: 'Nutrição & Peso',
-      badge: 'Peso Saudável',
-      filename: 'campeonato-13-peso-alimentacao-hidratacao.jpg',
-      downloadName: 'campeonato-13-peso-alimentacao-alexis.jpg',
-    },
-    {
-      num: 14,
-      title: 'Treino Técnico Inteligente',
-      subtitle: 'Repetição com qualidade',
-      category: 'Técnica & Estratégia',
-      badge: 'Base, Pegada & Queda',
-      filename: 'campeonato-14-treino-tecnico-inteligente.jpg',
-      downloadName: 'campeonato-14-treino-tecnico-alexis.jpg',
-    },
-    {
-      num: 15,
-      title: 'Preparação Física para Kids',
-      subtitle: 'Coordenação, mobilidade e prevenção',
-      category: 'Físico & Mobilidade',
-      badge: 'Corpo Preparado',
-      filename: 'campeonato-15-preparacao-fisica-kids.jpg',
-      downloadName: 'campeonato-15-preparacao-fisica-alexis.jpg',
-    },
-    {
-      num: 16,
-      title: 'Regras, Pontos e Faltas',
-      subtitle: 'Entender as regras ajuda a lutar melhor',
-      category: 'Regras Oficiais',
-      badge: 'Pontos & Penalidades',
-      filename: 'campeonato-16-regras-pontos-e-faltas.jpg',
-      downloadName: 'campeonato-16-regras-pontos-faltas-alexis.jpg',
-    },
-    {
-      num: 17,
-      title: 'Aquecimento Pré-Luta',
-      subtitle: 'Ativar o corpo e focar a mente',
-      category: 'Aquecimento Específico',
-      badge: 'Sequência 15 min',
-      filename: 'campeonato-17-aquecimento-pre-luta.jpg',
-      downloadName: 'campeonato-17-aquecimento-pre-luta-alexis.jpg',
-    },
-    {
-      num: 18,
-      title: 'Estratégia de Luta',
-      subtitle: 'Pensar a luta ajuda a competir melhor',
-      category: 'Tática & Planos',
-      badge: 'Plano A, B e C',
-      filename: 'campeonato-18-estrategia-de-luta.jpg',
-      downloadName: 'campeonato-18-estrategia-de-luta-alexis.jpg',
-    },
-    {
-      num: 19,
-      title: 'Cabeça Forte e Recuperação',
-      subtitle: 'Controle emocional e energia para continuar',
-      category: 'Pós-Luta & Mente',
-      badge: 'Entre Lutas',
-      filename: 'campeonato-19-cabeca-forte-e-recuperacao.jpg',
-      downloadName: 'campeonato-19-recuperacao-alexis.jpg',
-    },
-    {
-      num: 20,
-      title: 'Guia Técnico para os Pais',
-      subtitle: 'Apoio certo antes, durante e depois',
-      category: 'Guia Técnico Pais',
-      badge: 'Comunicação Familiar',
-      filename: 'campeonato-20-guia-tecnico-pais.jpg',
-      downloadName: 'campeonato-20-guia-tecnico-pais-alexis.jpg',
-    },
-  ]
-
-  console.log(`[Championship] Found ${extractedImages.length} images > 30KB`)
-  for (let k = 0; k < Math.min(5, extractedImages.length); k++) {
-    console.log(`Image ${k}: size ${extractedImages[k].length} bytes`)
-  }
-
-  const manifest = []
-  console.log(
-    `[Championship] pranchasInfo count: ${pranchasInfo.length}, extractedImages: ${extractedImages.length}`,
-  )
-  try {
-    for (let i = 0; i < extractedImages.length; i++) {
-      const imgBuf = extractedImages[i].data
-      const info = pranchasInfo[i] || {
-        num: i + 1,
-        title: `Prancha #${i + 1}`,
-        subtitle: 'Preparação para o Campeonato',
-        category: 'Preparação',
-        badge: 'Oficial',
-        filename: `campeonato-${String(i + 1).padStart(2, '0')}.jpg`,
-        downloadName: `campeonato-${String(i + 1).padStart(2, '0')}-alexis.jpg`,
-      }
-
-      const outPath = path.join(championshipOutDir, info.filename)
-      fs.writeFileSync(outPath, imgBuf)
-      manifest.push({
-        id: `campeonato-${String(info.num).padStart(2, '0')}`,
-        pageNumber: info.num,
-        order: info.num,
-        title: info.title,
-        subtitle: info.subtitle,
-        category: info.category,
-        badge: info.badge,
-        url: `/campeonato/${info.filename}`,
-        downloadName: info.downloadName,
-        size: imgBuf.length,
-      })
+    const info = pranchasInfo[i] || {
+      num: i + 1,
+      title: `Prancha #${i + 1}`,
+      subtitle: 'Preparação para o Campeonato',
+      category: 'Preparação',
+      badge: 'Oficial',
+      filename: `campeonato-${String(i + 1).padStart(2, '0')}.jpg`,
+      downloadName: `campeonato-${String(i + 1).padStart(2, '0')}-alexis.jpg`,
     }
 
-    fs.writeFileSync(
-      path.join(championshipOutDir, 'campeonato.json'),
-      JSON.stringify(manifest, null, 2),
-    )
-    console.log(`[Championship] Saved ${manifest.length} cards to public/campeonato/`)
-  } catch (err) {
-    console.error(`[Championship] Error saving:`, err)
+    const outPath = path.join(championshipOutDir, info.filename)
+    fs.writeFileSync(outPath, imgData)
+    manifest.push({
+      id: `campeonato-${String(info.num).padStart(2, '0')}`,
+      pageNumber: info.num,
+      order: info.num,
+      title: info.title,
+      subtitle: info.subtitle,
+      category: info.category,
+      badge: info.badge,
+      url: `/campeonato/${info.filename}`,
+      downloadName: info.downloadName,
+      size: imgData.length,
+    })
   }
+
+  fs.writeFileSync(
+    path.join(championshipOutDir, 'campeonato.json'),
+    JSON.stringify(manifest, null, 2),
+  )
 }

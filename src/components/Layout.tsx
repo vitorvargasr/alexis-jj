@@ -100,6 +100,9 @@ export default function Layout() {
             <NavLink to="/lesao-zero">
               <Shield /> Lesão Zero 🛡️
             </NavLink>
+            <NavLink to="/campeonato">
+              <Award /> Campeonato 🏆
+            </NavLink>
             <NavLink to="/conquistas">
               <Trophy /> Recompensas
             </NavLink>
@@ -164,6 +167,9 @@ export default function Layout() {
                   </NavLink>
                   <NavLink to="/lesao-zero">
                     <Shield /> Lesão Zero &amp; Fortalecimento 🛡️
+                  </NavLink>
+                  <NavLink to="/campeonato">
+                    <Award /> Preparação para o Campeonato 🏆
                   </NavLink>
                   <NavLink to="/conquistas">
                     <Trophy /> Minhas Recompensas 🏆

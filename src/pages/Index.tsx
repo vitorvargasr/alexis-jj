@@ -1,6 +1,7 @@
 import {
   Apple,
   ArrowRight,
+  Award,
   BookOpen,
   ChevronRight,
   Download,
@@ -11,6 +12,7 @@ import {
   Shield,
   Sparkles,
   Star,
+  Trophy,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
@@ -91,6 +93,13 @@ export default function Index() {
             <Palette className="w-4 h-4 text-orange-600" />
             <span>Colorir 🎨</span>
           </Link>
+          <Link
+            to="/campeonato"
+            className="strip-item hover:underline font-black text-amber-950 bg-amber-300/90 px-3 py-1 rounded-full border border-amber-500 shadow-sm"
+          >
+            <Trophy className="w-4 h-4 text-amber-800" />
+            <span>Campeonato 🏆</span>
+          </Link>
         </div>
       </section>
 
@@ -131,17 +140,24 @@ export default function Index() {
             </div>
             <div className="flex items-center gap-2">
               <Link
+                to="/campeonato"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-200 text-amber-950 border-2 border-amber-500 font-extrabold text-sm shadow-sm hover:bg-amber-300 transition-all hover:scale-105"
+              >
+                <span>🏆 Campeonato (20)</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+              <Link
                 to="/colorir"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-100 text-orange-950 border-2 border-orange-400 font-extrabold text-sm shadow-sm hover:bg-orange-200 transition-all hover:scale-105"
               >
-                <span>🎨 Colorir (10)</span>
+                <span>🎨 Colorir</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
               <Link
                 to="/conquistas"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100 text-amber-900 border-2 border-amber-400 font-extrabold text-sm shadow-sm hover:bg-amber-200 transition-all hover:scale-105"
               >
-                <span>🏆 Minhas Conquistas</span>
+                <span>🏆 Conquistas</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -249,7 +265,7 @@ export default function Index() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-black uppercase tracking-wider text-sky-900 bg-sky-200 px-2.5 py-0.5 rounded-full">
-                    Novo Extra · 9 Pranchas
+                    Extra · 9 Pranchas
                   </span>
                   <span className="text-2xl">🛡️ 🥋</span>
                 </div>
@@ -270,6 +286,37 @@ export default function Index() {
                   className="w-full bg-sky-500 hover:bg-sky-600 text-white font-black text-base shadow-md rounded-2xl py-5"
                 >
                   <Link to="/lesao-zero">Abrir Lesão Zero 🛡️</Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Card Preparação para o Campeonato */}
+            <div className="comic-card bg-gradient-to-br from-amber-50 to-yellow-50 border-4 border-amber-500 rounded-3xl p-5 flex flex-col justify-between shadow-lg relative overflow-hidden">
+              <div className="absolute -right-3 -top-3 w-16 h-16 bg-amber-300/40 rounded-full blur-md" />
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-950 bg-amber-400 px-2.5 py-0.5 rounded-full shadow-sm">
+                    NOVO EXTRA · 20 PRANCHAS
+                  </span>
+                  <span className="text-2xl">🏆 🥇</span>
+                </div>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                  Preparação para o Campeonato
+                </h3>
+                <p className="text-sm text-slate-700 mt-1 font-medium leading-snug">
+                  Manual ilustrado completo: 30 dias antes, semana final, regras de pontos,
+                  aquecimento e apoio da família!
+                </p>
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-amber-950 bg-white/90 p-2 rounded-xl border border-amber-300">
+                  <span>✨ 20 pranchas em alta resolução para ver e baixar</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-2">
+                <Button
+                  asChild
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-base shadow-md rounded-2xl py-5 border-2 border-slate-900"
+                >
+                  <Link to="/campeonato">Abrir Campeonato 🏆</Link>
                 </Button>
               </div>
             </div>
@@ -318,18 +365,27 @@ export default function Index() {
                   EXTRAS DO GIBI
                 </span>
                 <h3 className="text-xl font-black text-slate-900 m-0">
-                  Treino em Casa, Alimentação &amp; Lesão Zero
+                  Campeonato, Treino em Casa, Alimentação &amp; Lesão Zero
                 </h3>
               </div>
               <p className="text-sm text-slate-700 m-0 font-medium">
-                Acesse o programa dos 30 dias de Drills em Casa com orientações pedagógicas
-                exclusivas para os pais, visualizador de nutrição e pranchas de fortalecimento.
+                Acesse o manual ilustrado de Preparação para o Campeonato (20 pranchas com guia
+                completo para pais e atletas), além dos Drills em Casa, Guia de Nutrição e
+                Fortalecimento.
               </p>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <Button
                 asChild
-                className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black rounded-2xl px-4 py-5 border-2 border-slate-900"
+                className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black rounded-2xl px-4 py-5 border-2 border-slate-900 shadow-[3px_3px_0_#1e3a5f]"
+              >
+                <Link to="/campeonato">
+                  <Trophy className="w-4 h-4 mr-1.5" /> Campeonato 🏆
+                </Link>
+              </Button>
+              <Button
+                asChild
+                className="bg-amber-100 hover:bg-amber-200 text-slate-950 font-black rounded-2xl px-4 py-5 border-2 border-slate-900"
               >
                 <Link to="/treino-em-casa">
                   <Home className="w-4 h-4 mr-1.5" /> Treino em Casa 🏠

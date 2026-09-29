@@ -12,6 +12,7 @@ import ConfirmEmailPage from '@/pages/ConfirmEmailPage'
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage'
 import HomeDrillsPage from '@/pages/HomeDrillsPage'
 import Index from '@/pages/Index'
+import ChampionshipPrepPage from '@/pages/ChampionshipPrepPage'
 import InjuryPreventionPage from '@/pages/InjuryPreventionPage'
 import LoginPage from '@/pages/LoginPage'
 import ManagementPage from '@/pages/ManagementPage'
@@ -58,6 +59,8 @@ export default function App() {
                 <Route path="/nutricao" element={<NutritionPageViewer />} />
                 <Route path="/lesao-zero" element={<InjuryPreventionPage />} />
                 <Route path="/fortalecimento" element={<InjuryPreventionPage />} />
+                <Route path="/campeonato" element={<ChampionshipPrepPage />} />
+                <Route path="/preparacao-campeonato" element={<ChampionshipPrepPage />} />
                 <Route
                   path="/gerenciar"
                   element={
