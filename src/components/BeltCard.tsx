@@ -25,7 +25,7 @@ export function BeltCard({
         <span className="eyebrow">Sua jornada</span>
         <h2 id="belt-title">Minha Faixa</h2>
         <p>
-          <strong>{learned}</strong> de {total} pôsteres aprendidos
+          <strong>{learned}</strong> de {total} quadrinhos concluídos
         </p>
       </div>
       <div className="belt-visual-wrap">

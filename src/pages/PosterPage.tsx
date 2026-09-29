@@ -20,7 +20,6 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useLibrary } from '@/contexts/LibraryContext'
 import { useMode } from '@/contexts/ModeContext'
 import { earnStar } from '@/services/progress'
-import { posterImageUrl } from '@/services/posters'
 
 export default function PosterPage() {
   const { id } = useParams()
@@ -69,7 +68,6 @@ export default function PosterPage() {
     )
   if (!poster || !chapter || !user) return <Navigate to="/" replace />
 
-  const artwork = posterImageUrl(poster)
   const learnedSiblings = siblings.filter((s) =>
     progress.some((p) => p.poster === s.id && p.learned),
   ).length
@@ -145,11 +143,7 @@ export default function PosterPage() {
               Quadro {currentIndex + 1} de {siblings.length}
             </div>
 
-            {artwork ? (
-              <img src={artwork} alt={`Quadro do Gibi: ${poster.title}`} />
-            ) : (
-              <PosterArtwork poster={poster} />
-            )}
+            <PosterArtwork poster={poster} />
 
             {currentProgress?.learned && (
               <div className="gold-ribbon">

@@ -98,7 +98,14 @@ function loadPdfJsLib(): Promise<any> {
   if (pdfjsLibPromise) return pdfjsLibPromise
   pdfjsLibPromise = new Promise((resolve, reject) => {
     if (typeof window === 'undefined') return reject(new Error('Browser only'))
-    if ((window as any).pdfjsLib) return resolve((window as any).pdfjsLib)
+    if ((window as any).pdfjsLib) {
+      const lib = (window as any).pdfjsLib
+      if (!lib.GlobalWorkerOptions.workerSrc) {
+        lib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'
+      }
+      return resolve(lib)
+    }
 
     const script = document.createElement('script')
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'

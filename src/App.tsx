@@ -42,6 +42,7 @@ export default function App() {
                 <Route path="/" element={<Index />} />
                 <Route path="/capitulo/:id" element={<ChapterPage />} />
                 <Route path="/poster/:id" element={<PosterPage />} />
+                <Route path="/quadro/:id" element={<PosterPage />} />
                 <Route
                   path="/gerenciar"
                   element={

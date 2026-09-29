@@ -2,16 +2,13 @@ import { ArrowRight, BookOpen, ChevronRight, Flame, ImagePlus, Sparkles, Star } 
 import { Link } from 'react-router-dom'
 
 import { BeltCard } from '@/components/BeltCard'
-import { EmptyArtwork } from '@/components/EmptyArtwork'
+import { PosterArtwork } from '@/components/PosterArtwork'
 import { ProgressBar } from '@/components/ProgressBar'
 import { Button } from '@/components/ui/button'
 import { useLibrary } from '@/contexts/LibraryContext'
 import { useMode } from '@/contexts/ModeContext'
 import { progressPercentage } from '@/lib/belts'
-import { PosterArtwork } from '@/components/PosterArtwork'
 import { chapterCoverUrl } from '@/services/chapters'
-import { chapterCoverPageMap } from '@/services/pdfArtworks'
-import { posterImageUrl } from '@/services/posters'
 
 export default function Index() {
   const { chapters, posters, progress, loading } = useLibrary()
@@ -150,7 +147,9 @@ export default function Index() {
                         <i>Edição do gibi</i>
                       </div>
                     )}
-                    <span className="chapter-badge comic-issue-number">Edição #{index + 1}</span>
+                    <span className="chapter-badge comic-issue-number">
+                      Edição #{chapter.order || index + 1}
+                    </span>
                     {isCompleted && (
                       <span className="complete-badge comic-complete-badge">
                         <Star /> História Lida!

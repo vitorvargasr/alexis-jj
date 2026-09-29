@@ -10,14 +10,11 @@ import {
 } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 
-import { EmptyArtwork } from '@/components/EmptyArtwork'
 import { PosterArtwork } from '@/components/PosterArtwork'
 import { ProgressBar } from '@/components/ProgressBar'
 import { Button } from '@/components/ui/button'
 import { useLibrary } from '@/contexts/LibraryContext'
 import { useMode } from '@/contexts/ModeContext'
-import { posterImageUrl } from '@/services/posters'
-
 export default function ChapterPage() {
   const { id } = useParams()
   const { chapters, posters, progress, loading } = useLibrary()
@@ -28,7 +25,7 @@ export default function ChapterPage() {
     .sort((a, b) => a.order - b.order)
   const learnedIds = new Set(progress.filter((item) => item.learned).map((item) => item.poster))
   const learned = chapterPosters.filter((poster) => learnedIds.has(poster.id)).length
-  const chapterNumber = chapters.findIndex((item) => item.id === id) + 1
+  const chapterNumber = chapter.order || chapters.findIndex((item) => item.id === id) + 1
   const firstPoster = chapterPosters[0]
 
   if (loading)
@@ -98,7 +95,6 @@ export default function ChapterPage() {
         <div className="poster-grid comic-panels-grid">
           {chapterPosters.map((poster, index) => {
             const progressItem = progress.find((item) => item.poster === poster.id)
-            const artwork = posterImageUrl(poster, '480x0')
             const isPosicao = poster.kind === 'posicao'
 
             return (
@@ -109,12 +105,8 @@ export default function ChapterPage() {
                 style={{ animationDelay: `${index * 60}ms` }}
               >
                 <div className="poster-thumbnail comic-panel-thumb">
-                  {artwork ? (
-                    <img src={artwork} alt={`Quadro: ${poster.title}`} />
-                  ) : (
-                    <PosterArtwork poster={poster} thumb="480x0" compact />
-                  )}
-                  <span className="poster-number comic-panel-number">Quadro {index + 1}</span>
+                  <PosterArtwork poster={poster} thumb="480x0" compact />
+                  <span className="poster-number comic-panel-number">Quadro {index + 1}</span>{' '}
                   <span className="comic-type-tag">
                     {isPosicao ? <Flame /> : <Sparkles />}
                     {isPosicao ? 'Posição' : 'História'}

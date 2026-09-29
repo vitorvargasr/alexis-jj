@@ -54,7 +54,7 @@ export function PosterArtwork({
     return <img src={src} alt={alt || poster.title} className={className} loading="lazy" />
   }
 
-  if (loading) {
+  if (loading || pageNumber) {
     return (
       <div className={`artwork-loading-box ${className}`}>
         <div className="skeleton w-full h-full" style={{ minHeight: compact ? '80px' : '200px' }} />

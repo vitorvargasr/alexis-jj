@@ -158,10 +158,10 @@ export async function ensureInitialArtwork() {
     }
   }
 
-  // Enviar imagens do PDF sob demanda para quadros que ainda não tenham imagem persistida
+  // Enviar imagens do PDF em lote controlado em segundo plano
+  // para persistir de vez os quadros no PocketBase
   const withoutImage = posters.filter((p) => !p.image && posterPageMap[p.title])
-  // Fazer de forma suave para os primeiros 3 quadros por sessão para não sobrecarregar
-  const queue = withoutImage.slice(0, 4)
+  const queue = withoutImage.slice(0, 15)
   for (const p of queue) {
     const pageNum = posterPageMap[p.title]
     if (!pageNum) continue
