@@ -7,6 +7,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { LibraryProvider } from '@/contexts/LibraryContext'
 import { ModeProvider } from '@/contexts/ModeContext'
 import ChapterPage from '@/pages/ChapterPage'
+import ColoringPagesPage from '@/pages/ColoringPagesPage'
 import ConfirmEmailPage from '@/pages/ConfirmEmailPage'
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage'
 import Index from '@/pages/Index'
@@ -46,6 +47,8 @@ export default function App() {
                 <Route path="/quadro/:id" element={<PosterPage />} />
                 <Route path="/conquistas" element={<RewardsPage />} />
                 <Route path="/recompensas" element={<RewardsPage />} />
+                <Route path="/colorir" element={<ColoringPagesPage />} />
+                <Route path="/desenhos-para-colorir" element={<ColoringPagesPage />} />
                 <Route
                   path="/gerenciar"
                   element={

@@ -1,4 +1,14 @@
-import { ArrowRight, BookOpen, ChevronRight, Flame, ImagePlus, Sparkles, Star } from 'lucide-react'
+import {
+  ArrowRight,
+  BookOpen,
+  ChevronRight,
+  Download,
+  Flame,
+  ImagePlus,
+  Palette,
+  Sparkles,
+  Star,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 import { BeltCard } from '@/components/BeltCard'
@@ -64,6 +74,13 @@ export default function Index() {
             <Star />
             <span>Aprenda as posições</span>
           </div>
+          <Link
+            to="/colorir"
+            className="strip-item hover:underline ml-auto font-black text-amber-700 bg-amber-100/90 px-3 py-1 rounded-full border border-amber-300"
+          >
+            <Palette className="w-4 h-4 text-amber-600" />
+            <span>10 Desenhos para Colorir 🎨</span>
+          </Link>
         </div>
       </section>
 
@@ -100,23 +117,63 @@ export default function Index() {
           <div className="comic-belt-header flex items-center justify-between">
             <div>
               <span className="comic-badge-pill">APP DENTRO DA REVISTA</span>
-              <h3>Minha Evolução no Jiu-Jitsu</h3>
+              <h3>Minha Evolução &amp; Atividades do Tatame</h3>
             </div>
-            <Link
-              to="/conquistas"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100 text-amber-900 border-2 border-amber-400 font-extrabold text-sm shadow-sm hover:bg-amber-200 transition-all hover:scale-105"
-            >
-              <span>🏆 Minhas Conquistas</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                to="/colorir"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-100 text-orange-950 border-2 border-orange-400 font-extrabold text-sm shadow-sm hover:bg-orange-200 transition-all hover:scale-105"
+              >
+                <span>🎨 Colorir (10)</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/conquistas"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100 text-amber-900 border-2 border-amber-400 font-extrabold text-sm shadow-sm hover:bg-amber-200 transition-all hover:scale-105"
+              >
+                <span>🏆 Minhas Conquistas</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <BeltCard
               percentage={percentage}
               learned={learned}
               total={posters.length}
               belt={currentBelt}
             />
+
+            {/* Card Desenhos para Colorir */}
+            <div className="comic-card bg-orange-50/90 border-4 border-orange-300 rounded-3xl p-5 flex flex-col justify-between shadow-md">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-orange-900 bg-orange-200/80 px-2.5 py-0.5 rounded-full">
+                    Novo · 10 Ilustrações
+                  </span>
+                  <span className="text-2xl">🎨 🖍️</span>
+                </div>
+                <h3 className="text-xl font-black text-slate-800 tracking-tight">
+                  Desenhos para Colorir
+                </h3>
+                <p className="text-sm text-slate-600 mt-1 font-medium leading-snug">
+                  10 desenhos originais em alta resolução do gibi para imprimir e pintar como você
+                  quiser no tatame de casa!
+                </p>
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-slate-700 bg-white/70 p-2 rounded-xl border border-orange-200">
+                  <span>⬇️ Download individual e grátis</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-2">
+                <Button
+                  asChild
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black text-base shadow-md rounded-2xl py-5"
+                >
+                  <Link to="/colorir">Abrir Desenhos 🎨</Link>
+                </Button>
+              </div>
+            </div>
+
             {/* Card de Acesso Rápido para Recompensas */}
             <div className="comic-card bg-amber-50/90 border-4 border-amber-300 rounded-3xl p-5 flex flex-col justify-between shadow-md">
               <div>
@@ -147,6 +204,34 @@ export default function Index() {
                 </Button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Seção no Modo Pai para acesso rápido aos Desenhos */}
+      {!isKid && (
+        <div className="comic-belt-wrapper fade-rise bg-orange-50/60 border-orange-300">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="comic-badge-pill bg-orange-500">NOVA ÁREA</span>
+                <h3 className="text-xl font-black text-slate-900 m-0">
+                  Desenhos para Colorir (10 Páginas)
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 m-0 font-medium">
+                Baixe e imprima as 10 páginas para o Álexis pintar em casa com lápis de cor ou giz
+                de cera.
+              </p>
+            </div>
+            <Button
+              asChild
+              className="bg-orange-500 hover:bg-orange-600 text-white font-black rounded-2xl px-6 py-5"
+            >
+              <Link to="/colorir">
+                <Download className="w-4 h-4 mr-1.5" /> Ver e Baixar Desenhos 🎨
+              </Link>
+            </Button>
           </div>
         </div>
       )}

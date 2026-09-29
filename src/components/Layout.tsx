@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { Award, BookOpen, LogOut, Mail, Menu, Settings, Trophy, UserRound } from 'lucide-react'
+import {
+  Award,
+  BookOpen,
+  LogOut,
+  Mail,
+  Menu,
+  Palette,
+  Settings,
+  Trophy,
+  UserRound,
+} from 'lucide-react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
 import { EmailChangeDialog } from '@/components/EmailChangeDialog'
@@ -75,6 +85,9 @@ export default function Layout() {
             <NavLink to="/" end>
               <BookOpen /> Histórias do Gibi
             </NavLink>
+            <NavLink to="/colorir">
+              <Palette /> Desenhos para Colorir
+            </NavLink>
             <NavLink to="/conquistas">
               <Trophy /> Recompensas
             </NavLink>
@@ -127,6 +140,9 @@ export default function Layout() {
                 <nav className="mobile-nav">
                   <NavLink to="/">
                     <BookOpen /> Histórias do Gibi
+                  </NavLink>
+                  <NavLink to="/colorir">
+                    <Palette /> Desenhos para Colorir 🎨
                   </NavLink>
                   <NavLink to="/conquistas">
                     <Trophy /> Minhas Recompensas
