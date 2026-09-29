@@ -14,6 +14,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 
 import { Confetti } from '@/components/Confetti'
 import { EmptyArtwork } from '@/components/EmptyArtwork'
+import { PosterArtwork } from '@/components/PosterArtwork'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
 import { useLibrary } from '@/contexts/LibraryContext'
@@ -147,7 +148,7 @@ export default function PosterPage() {
             {artwork ? (
               <img src={artwork} alt={`Quadro do Gibi: ${poster.title}`} />
             ) : (
-              <EmptyArtwork />
+              <PosterArtwork poster={poster} />
             )}
 
             {currentProgress?.learned && (

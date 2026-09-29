@@ -1,4 +1,5 @@
 import pb from '@/lib/pocketbase/client'
+import { posterPageMap, renderPdfPageToDataUrl } from '@/services/pdfArtworks'
 import type { Poster } from '@/types/library'
 
 export const initialArtwork: Record<string, string> = {
@@ -27,6 +28,10 @@ export function posterImageUrl(poster: Poster, thumb?: string) {
     return pb.files.getURL(poster, poster.image, thumb ? { thumb } : undefined)
   }
   return initialArtwork[poster.title] || ''
+}
+
+export function getPosterPageNumber(poster: Poster): number | undefined {
+  return posterPageMap[poster.title]
 }
 
 export function savePoster(
@@ -150,6 +155,27 @@ export async function ensureInitialArtwork() {
           // Ignorar se houver restrição ou offline
         }
       }
+    }
+  }
+
+  // Enviar imagens do PDF sob demanda para quadros que ainda não tenham imagem persistida
+  const withoutImage = posters.filter((p) => !p.image && posterPageMap[p.title])
+  // Fazer de forma suave para os primeiros 3 quadros por sessão para não sobrecarregar
+  const queue = withoutImage.slice(0, 4)
+  for (const p of queue) {
+    const pageNum = posterPageMap[p.title]
+    if (!pageNum) continue
+    try {
+      const dataUrl = await renderPdfPageToDataUrl(pageNum)
+      if (!dataUrl) continue
+      const res = await fetch(dataUrl)
+      const blob = await res.blob()
+      const file = new File([blob], `pagina-${pageNum}.jpg`, { type: 'image/jpeg' })
+      const data = new FormData()
+      data.set('image', file)
+      await pb.collection<Poster>('posters').update(p.id, data)
+    } catch {
+      // Ignora se der erro ou sem conexão
     }
   }
 }

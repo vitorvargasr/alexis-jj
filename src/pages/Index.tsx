@@ -8,7 +8,9 @@ import { Button } from '@/components/ui/button'
 import { useLibrary } from '@/contexts/LibraryContext'
 import { useMode } from '@/contexts/ModeContext'
 import { progressPercentage } from '@/lib/belts'
+import { PosterArtwork } from '@/components/PosterArtwork'
 import { chapterCoverUrl } from '@/services/chapters'
+import { chapterCoverPageMap } from '@/services/pdfArtworks'
 import { posterImageUrl } from '@/services/posters'
 
 export default function Index() {
@@ -75,11 +77,7 @@ export default function Index() {
           className="continue-card comic-continue-card fade-rise"
         >
           <div className="continue-image">
-            {posterImageUrl(nextPoster, '480x0') ? (
-              <img src={posterImageUrl(nextPoster, '480x0')} alt="" />
-            ) : (
-              <EmptyArtwork compact />
-            )}
+            <PosterArtwork poster={nextPoster} thumb="480x0" compact />
             <span className="comic-action-badge">Lê agora!</span>
           </div>
           <div className="continue-copy">
@@ -130,9 +128,7 @@ export default function Index() {
                 learnedIds.has(poster.id),
               ).length
               const cover = chapterCoverUrl(chapter)
-              const firstArtwork = chapterPosters
-                .map((poster) => posterImageUrl(poster, '480x0'))
-                .find(Boolean)
+              const firstPoster = chapterPosters[0]
               const isCompleted =
                 chapterPosters.length > 0 && chapterLearned === chapterPosters.length
 
@@ -144,12 +140,14 @@ export default function Index() {
                   style={{ animationDelay: `${index * 60}ms` }}
                 >
                   <div className="chapter-cover comic-issue-cover">
-                    {cover || firstArtwork ? (
-                      <img src={cover || firstArtwork} alt={`Capa de ${chapter.title}`} />
+                    {cover ? (
+                      <img src={cover} alt={`Capa de ${chapter.title}`} />
+                    ) : firstPoster ? (
+                      <PosterArtwork poster={firstPoster} thumb="480x0" />
                     ) : (
                       <div className="chapter-placeholder">
                         <span>{chapter.emoji || '🥋'}</span>
-                        <i>Preparando aventura</i>
+                        <i>Edição do gibi</i>
                       </div>
                     )}
                     <span className="chapter-badge comic-issue-number">Edição #{index + 1}</span>

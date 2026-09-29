@@ -34,6 +34,7 @@ import {
   saveChapter,
   updateChapterOrder,
 } from '@/services/chapters'
+import { PosterArtwork } from '@/components/PosterArtwork'
 import { posterImageUrl, removePoster, savePoster } from '@/services/posters'
 import type { Chapter, Poster } from '@/types/library'
 
@@ -259,7 +260,11 @@ export default function ManagementPage() {
                     return (
                       <article key={poster.id} className="manage-poster-row">
                         <div className="manage-poster-image">
-                          {art ? <img src={art} alt="" /> : <FileImage />}
+                          {art ? (
+                            <img src={art} alt="" />
+                          ) : (
+                            <PosterArtwork poster={poster} thumb="480x0" compact />
+                          )}
                           <span>{posterIndex + 1}</span>
                         </div>
                         <div className="manage-poster-copy">
@@ -268,7 +273,9 @@ export default function ManagementPage() {
                             <span className="badge-kind">
                               {isPosicao ? '🥋 Posição' : '📖 História'}
                             </span>
-                            <span>{art ? 'Arte pronta' : 'Aguardando arte'}</span>
+                            <span>
+                              {art || poster.title ? 'Arte ilustrada' : 'Aguardando arte'}
+                            </span>
                             {poster.caption && (
                               <span className="caption-preview">“{poster.caption}”</span>
                             )}

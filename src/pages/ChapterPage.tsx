@@ -11,6 +11,7 @@ import {
 import { Link, Navigate, useParams } from 'react-router-dom'
 
 import { EmptyArtwork } from '@/components/EmptyArtwork'
+import { PosterArtwork } from '@/components/PosterArtwork'
 import { ProgressBar } from '@/components/ProgressBar'
 import { Button } from '@/components/ui/button'
 import { useLibrary } from '@/contexts/LibraryContext'
@@ -111,7 +112,7 @@ export default function ChapterPage() {
                   {artwork ? (
                     <img src={artwork} alt={`Quadro: ${poster.title}`} />
                   ) : (
-                    <EmptyArtwork compact />
+                    <PosterArtwork poster={poster} thumb="480x0" compact />
                   )}
                   <span className="poster-number comic-panel-number">Quadro {index + 1}</span>
                   <span className="comic-type-tag">
