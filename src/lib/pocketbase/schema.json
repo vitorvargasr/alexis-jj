@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-29T21:51:30.502Z",
+  "generatedAt": "2026-09-29T22:01:45.864Z",
   "collections": [
     {
       "name": "users",
@@ -401,6 +401,58 @@
         "CREATE UNIQUE INDEX idx_weekly_goals_user_week ON weekly_goals (user, week_start)",
         "CREATE INDEX idx_weekly_goals_user ON weekly_goals (user)"
       ]
+    },
+    {
+      "name": "coloring_pages",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "image",
+          "type": "file",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_coloring_pages_order ON coloring_pages (order)"]
     }
   ]
 }
