@@ -10,10 +10,13 @@ import ChapterPage from '@/pages/ChapterPage'
 import ColoringPagesPage from '@/pages/ColoringPagesPage'
 import ConfirmEmailPage from '@/pages/ConfirmEmailPage'
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage'
+import HomeDrillsPage from '@/pages/HomeDrillsPage'
 import Index from '@/pages/Index'
+import InjuryPreventionPage from '@/pages/InjuryPreventionPage'
 import LoginPage from '@/pages/LoginPage'
 import ManagementPage from '@/pages/ManagementPage'
 import NotFound from '@/pages/NotFound'
+import NutritionPageViewer from '@/pages/NutritionPageViewer'
 import PosterPage from '@/pages/PosterPage'
 import RewardsPage from '@/pages/RewardsPage'
 import ResetPasswordPage from '@/pages/ResetPasswordPage'
@@ -49,6 +52,12 @@ export default function App() {
                 <Route path="/recompensas" element={<RewardsPage />} />
                 <Route path="/colorir" element={<ColoringPagesPage />} />
                 <Route path="/desenhos-para-colorir" element={<ColoringPagesPage />} />
+                <Route path="/treino-em-casa" element={<HomeDrillsPage />} />
+                <Route path="/drills" element={<HomeDrillsPage />} />
+                <Route path="/alimentacao" element={<NutritionPageViewer />} />
+                <Route path="/nutricao" element={<NutritionPageViewer />} />
+                <Route path="/lesao-zero" element={<InjuryPreventionPage />} />
+                <Route path="/fortalecimento" element={<InjuryPreventionPage />} />
                 <Route
                   path="/gerenciar"
                   element={

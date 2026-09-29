@@ -58,3 +58,15 @@ export interface WeeklyGoal extends RecordModel {
   week_start: string // 'YYYY-MM-DD' (segunda-feira da semana)
   goal: string
 }
+
+export interface HomeDrillProgressRecord extends RecordModel {
+  user: string
+  day_number: number // 1 a 30
+  done: boolean
+  done_at?: string
+  nota?: number // 1 a 5
+  calm_checked?: boolean
+  painless_checked?: boolean
+  fun_checked?: boolean
+  notes?: string
+}

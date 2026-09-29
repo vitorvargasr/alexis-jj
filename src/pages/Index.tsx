@@ -1,11 +1,14 @@
 import {
+  Apple,
   ArrowRight,
   BookOpen,
   ChevronRight,
   Download,
   Flame,
+  Home,
   ImagePlus,
   Palette,
+  Shield,
   Sparkles,
   Star,
 } from 'lucide-react'
@@ -75,11 +78,18 @@ export default function Index() {
             <span>Aprenda as posições</span>
           </div>
           <Link
-            to="/colorir"
-            className="strip-item hover:underline ml-auto font-black text-amber-700 bg-amber-100/90 px-3 py-1 rounded-full border border-amber-300"
+            to="/treino-em-casa"
+            className="strip-item hover:underline font-black text-amber-900 bg-amber-200/90 px-3 py-1 rounded-full border border-amber-400"
           >
-            <Palette className="w-4 h-4 text-amber-600" />
-            <span>10 Desenhos para Colorir 🎨</span>
+            <Home className="w-4 h-4 text-amber-700" />
+            <span>Treino em Casa 30 Dias 🏠</span>
+          </Link>
+          <Link
+            to="/colorir"
+            className="strip-item hover:underline font-black text-orange-900 bg-orange-100/90 px-3 py-1 rounded-full border border-orange-300"
+          >
+            <Palette className="w-4 h-4 text-orange-600" />
+            <span>Colorir 🎨</span>
           </Link>
         </div>
       </section>
@@ -136,7 +146,7 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <BeltCard
               percentage={percentage}
               learned={learned}
@@ -144,12 +154,42 @@ export default function Index() {
               belt={currentBelt}
             />
 
+            {/* Card Treino em Casa 30 Dias */}
+            <div className="comic-card bg-amber-50/90 border-4 border-amber-400 rounded-3xl p-5 flex flex-col justify-between shadow-md">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-900 bg-amber-200 px-2.5 py-0.5 rounded-full">
+                    Programa Oficial · 30 Dias
+                  </span>
+                  <span className="text-2xl">🏠 ⏱️</span>
+                </div>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                  Treino em Casa (Drills Kids)
+                </h3>
+                <p className="text-sm text-slate-700 mt-1 font-medium leading-snug">
+                  18 a 22 minutos diários com aquecimento, 3 exercícios, jogo final e desafios por
+                  semana!
+                </p>
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-amber-950 bg-white/80 p-2 rounded-xl border border-amber-300">
+                  <span>⭐ Regra de ouro: segurança e consistência</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-2">
+                <Button
+                  asChild
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-base shadow-md rounded-2xl py-5 border-2 border-slate-900"
+                >
+                  <Link to="/treino-em-casa">Iniciar Treino em Casa 🏠</Link>
+                </Button>
+              </div>
+            </div>
+
             {/* Card Desenhos para Colorir */}
             <div className="comic-card bg-orange-50/90 border-4 border-orange-300 rounded-3xl p-5 flex flex-col justify-between shadow-md">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-black uppercase tracking-wider text-orange-900 bg-orange-200/80 px-2.5 py-0.5 rounded-full">
-                    Novo · 10 Ilustrações
+                    10 Ilustrações
                   </span>
                   <span className="text-2xl">🎨 🖍️</span>
                 </div>
@@ -161,7 +201,7 @@ export default function Index() {
                   quiser no tatame de casa!
                 </p>
                 <div className="mt-3 flex items-center gap-2 text-xs font-bold text-slate-700 bg-white/70 p-2 rounded-xl border border-orange-200">
-                  <span>⬇️ Download individual e grátis</span>
+                  <span>⬇️ Download e impressão individual</span>
                 </div>
               </div>
               <div className="mt-4 pt-2">
@@ -170,6 +210,66 @@ export default function Index() {
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black text-base shadow-md rounded-2xl py-5"
                 >
                   <Link to="/colorir">Abrir Desenhos 🎨</Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Card Alimentação & Performance */}
+            <div className="comic-card bg-emerald-50/90 border-4 border-emerald-300 rounded-3xl p-5 flex flex-col justify-between shadow-md">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-emerald-900 bg-emerald-200 px-2.5 py-0.5 rounded-full">
+                    Novo Extra · 10 Cards
+                  </span>
+                  <span className="text-2xl">🍎 🥗</span>
+                </div>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                  Alimentação &amp; Performance
+                </h3>
+                <p className="text-sm text-slate-700 mt-1 font-medium leading-snug">
+                  Minerais, carboidratos, pré-treino leve, água e energia de verdade para os
+                  pequenos atletas.
+                </p>
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-emerald-900 bg-white/80 p-2 rounded-xl border border-emerald-200">
+                  <span>📄 Navegação por página e impressão limpa</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-2">
+                <Button
+                  asChild
+                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black text-base shadow-md rounded-2xl py-5"
+                >
+                  <Link to="/alimentacao">Ver Guia Alimentação 🍎</Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Card Lesão Zero & Fortalecimento */}
+            <div className="comic-card bg-sky-50/90 border-4 border-sky-300 rounded-3xl p-5 flex flex-col justify-between shadow-md">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-sky-900 bg-sky-200 px-2.5 py-0.5 rounded-full">
+                    Novo Extra · 9 Pranchas
+                  </span>
+                  <span className="text-2xl">🛡️ 🥋</span>
+                </div>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                  Lesão Zero &amp; Fortalecimento
+                </h3>
+                <p className="text-sm text-slate-700 mt-1 font-medium leading-snug">
+                  Pranchas ilustradas de aquecimento articular, core, cervical protegida e segurança
+                  no tatame.
+                </p>
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-sky-900 bg-white/80 p-2 rounded-xl border border-sky-200">
+                  <span>⬇️ 9 imagens oficiais para baixar</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-2">
+                <Button
+                  asChild
+                  className="w-full bg-sky-500 hover:bg-sky-600 text-white font-black text-base shadow-md rounded-2xl py-5"
+                >
+                  <Link to="/lesao-zero">Abrir Lesão Zero 🛡️</Link>
                 </Button>
               </div>
             </div>
@@ -208,30 +308,50 @@ export default function Index() {
         </div>
       )}
 
-      {/* Seção no Modo Pai para acesso rápido aos Desenhos */}
+      {/* Seção no Modo Pai para acesso rápido aos Novos Recursos */}
       {!isKid && (
-        <div className="comic-belt-wrapper fade-rise bg-orange-50/60 border-orange-300">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="comic-belt-wrapper fade-rise bg-amber-50/70 border-amber-300">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="comic-badge-pill bg-orange-500">NOVA ÁREA</span>
+                <span className="comic-badge-pill bg-amber-500 text-slate-950 font-black">
+                  EXTRAS DO GIBI
+                </span>
                 <h3 className="text-xl font-black text-slate-900 m-0">
-                  Desenhos para Colorir (10 Páginas)
+                  Treino em Casa, Alimentação &amp; Lesão Zero
                 </h3>
               </div>
-              <p className="text-sm text-slate-600 m-0 font-medium">
-                Baixe e imprima as 10 páginas para o Álexis pintar em casa com lápis de cor ou giz
-                de cera.
+              <p className="text-sm text-slate-700 m-0 font-medium">
+                Acesse o programa dos 30 dias de Drills em Casa com orientações pedagógicas
+                exclusivas para os pais, visualizador de nutrição e pranchas de fortalecimento.
               </p>
             </div>
-            <Button
-              asChild
-              className="bg-orange-500 hover:bg-orange-600 text-white font-black rounded-2xl px-6 py-5"
-            >
-              <Link to="/colorir">
-                <Download className="w-4 h-4 mr-1.5" /> Ver e Baixar Desenhos 🎨
-              </Link>
-            </Button>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                asChild
+                className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black rounded-2xl px-4 py-5 border-2 border-slate-900"
+              >
+                <Link to="/treino-em-casa">
+                  <Home className="w-4 h-4 mr-1.5" /> Treino em Casa 🏠
+                </Link>
+              </Button>
+              <Button
+                asChild
+                className="bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl px-4 py-5"
+              >
+                <Link to="/alimentacao">
+                  <Apple className="w-4 h-4 mr-1.5" /> Alimentação 🍎
+                </Link>
+              </Button>
+              <Button
+                asChild
+                className="bg-sky-500 hover:bg-sky-600 text-white font-black rounded-2xl px-4 py-5"
+              >
+                <Link to="/lesao-zero">
+                  <Shield className="w-4 h-4 mr-1.5" /> Lesão Zero 🛡️
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       )}

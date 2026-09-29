@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import {
+  Apple,
   Award,
   BookOpen,
+  Home,
   LogOut,
   Mail,
   Menu,
   Palette,
   Settings,
+  Shield,
   Trophy,
   UserRound,
 } from 'lucide-react'
@@ -83,10 +86,19 @@ export default function Layout() {
           </Link>
           <nav className="desktop-nav" aria-label="Navegação principal">
             <NavLink to="/" end>
-              <BookOpen /> Histórias do Gibi
+              <BookOpen /> Gibi
+            </NavLink>
+            <NavLink to="/treino-em-casa">
+              <Home /> Treino em Casa 🏠
             </NavLink>
             <NavLink to="/colorir">
-              <Palette /> Desenhos para Colorir
+              <Palette /> Colorir
+            </NavLink>
+            <NavLink to="/alimentacao">
+              <Apple /> Alimentação 🍎
+            </NavLink>
+            <NavLink to="/lesao-zero">
+              <Shield /> Lesão Zero 🛡️
             </NavLink>
             <NavLink to="/conquistas">
               <Trophy /> Recompensas
@@ -141,11 +153,20 @@ export default function Layout() {
                   <NavLink to="/">
                     <BookOpen /> Histórias do Gibi
                   </NavLink>
+                  <NavLink to="/treino-em-casa">
+                    <Home /> Treino em Casa 🏠 (30 Dias)
+                  </NavLink>
                   <NavLink to="/colorir">
                     <Palette /> Desenhos para Colorir 🎨
                   </NavLink>
+                  <NavLink to="/alimentacao">
+                    <Apple /> Alimentação &amp; Performance 🍎
+                  </NavLink>
+                  <NavLink to="/lesao-zero">
+                    <Shield /> Lesão Zero &amp; Fortalecimento 🛡️
+                  </NavLink>
                   <NavLink to="/conquistas">
-                    <Trophy /> Minhas Recompensas
+                    <Trophy /> Minhas Recompensas 🏆
                   </NavLink>
                   {!isKid && (
                     <NavLink to="/gerenciar">
