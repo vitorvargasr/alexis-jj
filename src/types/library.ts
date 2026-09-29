@@ -29,9 +29,32 @@ export interface PosterProgress extends RecordModel {
 export type AppMode = 'kid' | 'dad'
 
 export interface BeltLevel {
+  order: number
   name: string
-  color: string
+  shortName: string
+  baseColor: string
+  stripeColor?: string
+  tipColor?: string
   textColor: string
-  min: number
-  max: number
+  description: string
+}
+
+export interface BeltAchievement extends RecordModel {
+  user: string
+  belt_order: number
+  achieved_at?: string
+}
+
+export interface TrainingDay extends RecordModel {
+  user: string
+  day: string // 'YYYY-MM-DD'
+  trained: boolean
+  stars: number // 0-3
+  note?: string
+}
+
+export interface WeeklyGoal extends RecordModel {
+  user: string
+  week_start: string // 'YYYY-MM-DD' (segunda-feira da semana)
+  goal: string
 }

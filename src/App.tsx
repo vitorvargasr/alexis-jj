@@ -14,6 +14,7 @@ import LoginPage from '@/pages/LoginPage'
 import ManagementPage from '@/pages/ManagementPage'
 import NotFound from '@/pages/NotFound'
 import PosterPage from '@/pages/PosterPage'
+import RewardsPage from '@/pages/RewardsPage'
 import ResetPasswordPage from '@/pages/ResetPasswordPage'
 import SignupPage from '@/pages/SignupPage'
 import VerifyEmailPage from '@/pages/VerifyEmailPage'
@@ -43,6 +44,8 @@ export default function App() {
                 <Route path="/capitulo/:id" element={<ChapterPage />} />
                 <Route path="/poster/:id" element={<PosterPage />} />
                 <Route path="/quadro/:id" element={<PosterPage />} />
+                <Route path="/conquistas" element={<RewardsPage />} />
+                <Route path="/recompensas" element={<RewardsPage />} />
                 <Route
                   path="/gerenciar"
                   element={

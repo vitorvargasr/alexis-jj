@@ -34,7 +34,9 @@ import {
   saveChapter,
   updateChapterOrder,
 } from '@/services/chapters'
+import { Award, BookOpen } from 'lucide-react'
 import { PosterArtwork } from '@/components/PosterArtwork'
+import { DadRewardsPanel } from '@/components/rewards/DadRewardsPanel'
 import { posterImageUrl, removePoster, savePoster } from '@/services/posters'
 import type { Chapter, Poster } from '@/types/library'
 
@@ -88,6 +90,7 @@ export default function ManagementPage() {
   } | null>(null)
   const [busy, setBusy] = useState(false)
   const [globalError, setGlobalError] = useState('')
+  const [mainTab, setMainTab] = useState<'comics' | 'rewards'>('comics')
 
   const reorder = async (chapter: Chapter, delta: number) => {
     const currentIndex = chapters.findIndex((item) => item.id === chapter.id)
@@ -172,156 +175,178 @@ export default function ManagementPage() {
         </div>
       </section>
 
-      <div className="management-list">
-        {chapters.map((chapter, chapterIndex) => {
-          const chapterPosters = posters
-            .filter((poster) => poster.chapter === chapter.id)
-            .sort((a, b) => a.order - b.order)
-          const cover = chapterCoverUrl(chapter)
-          return (
-            <section
-              key={chapter.id}
-              className="manage-chapter fade-rise"
-              style={{ animationDelay: `${chapterIndex * 60}ms` }}
-            >
-              <header className="manage-chapter-header">
-                <div className="manage-chapter-cover">
-                  {cover ? <img src={cover} alt="" /> : <span>{chapter.emoji || '📖'}</span>}
-                </div>
-                <div className="manage-chapter-title">
-                  <span>Edição #{chapterIndex + 1}</span>
-                  <h2>
-                    {chapter.title
-                      .replace(/^Edição \d+\s*—\s*/, '')
-                      .replace(/^Capítulo \d+\s*—\s*/, '')}
-                  </h2>
-                  <p>{chapter.description || 'Sem descrição.'}</p>
-                </div>
-                <div className="manage-actions">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => reorder(chapter, -1)}
-                    disabled={chapterIndex === 0 || busy}
-                    aria-label="Mover história para cima"
-                  >
-                    <ArrowUp />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => reorder(chapter, 1)}
-                    disabled={chapterIndex === chapters.length - 1 || busy}
-                    aria-label="Mover história para baixo"
-                  >
-                    <ArrowDown />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setChapterEditing(chapter)
-                      setChapterFormOpen(true)
-                    }}
-                  >
-                    <Edit3 /> Editar história
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="danger-button"
-                    onClick={() =>
-                      setDeleteTarget({ type: 'chapter', id: chapter.id, title: chapter.title })
-                    }
-                  >
-                    <Trash2 />
-                    <span className="desktop-button-label">Excluir</span>
-                  </Button>
-                </div>
-              </header>
+      {/* Abas do Gerenciador: Gibi vs Recompensas */}
+      <div className="flex gap-2 mb-6 border-b-2 border-slate-200 pb-2">
+        <Button
+          variant={mainTab === 'comics' ? 'default' : 'outline'}
+          onClick={() => setMainTab('comics')}
+          className="gap-2 font-bold"
+        >
+          <BookOpen className="w-4 h-4" /> Histórias &amp; Quadros do Gibi
+        </Button>
+        <Button
+          variant={mainTab === 'rewards' ? 'default' : 'outline'}
+          onClick={() => setMainTab('rewards')}
+          className="gap-2 font-bold bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100 data-[state=active]:bg-amber-500"
+        >
+          <Award className="w-4 h-4" /> Recompensas &amp; Graduação
+        </Button>
+      </div>
 
-              <div className="manage-posters">
-                <div className="manage-posters-heading">
-                  <h3>
-                    Quadros da história <span>{chapterPosters.length}</span>
-                  </h3>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setPosterEditing(null)
-                      setPosterChapter(chapter.id)
-                    }}
-                  >
-                    <Plus /> Novo quadro
-                  </Button>
-                </div>
-                {chapterPosters.length ? (
-                  chapterPosters.map((poster, posterIndex) => {
-                    const art = posterImageUrl(poster, '480x0')
-                    const isPosicao = poster.kind === 'posicao'
-                    return (
-                      <article key={poster.id} className="manage-poster-row">
-                        <div className="manage-poster-image">
-                          {art ? (
-                            <img src={art} alt="" />
-                          ) : (
-                            <PosterArtwork poster={poster} thumb="480x0" compact />
-                          )}
-                          <span>{posterIndex + 1}</span>
-                        </div>
-                        <div className="manage-poster-copy">
-                          <strong>{poster.title}</strong>
-                          <span className="manage-poster-meta">
-                            <span className="badge-kind">
-                              {isPosicao ? '🥋 Posição' : '📖 História'}
-                            </span>
-                            <span>
-                              {art || poster.title ? 'Arte ilustrada' : 'Aguardando arte'}
-                            </span>
-                            {poster.caption && (
-                              <span className="caption-preview">“{poster.caption}”</span>
-                            )}
-                          </span>
-                        </div>
-                        <div className="manage-actions">
-                          <Button
-                            variant="ghost"
-                            onClick={() => {
-                              setPosterEditing(poster)
-                              setPosterChapter(chapter.id)
-                            }}
-                          >
-                            <Edit3 /> Editar
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            className="danger-button"
-                            onClick={() =>
-                              setDeleteTarget({
-                                type: 'poster',
-                                id: poster.id,
-                                title: poster.title,
-                              })
-                            }
-                          >
-                            <Trash2 />
-                          </Button>
-                        </div>
-                      </article>
-                    )
-                  })
-                ) : (
-                  <div className="manage-empty">
-                    <ImagePlus />
-                    <p>Nenhum quadro nesta história ainda.</p>
-                    <Button variant="link" onClick={() => setPosterChapter(chapter.id)}>
-                      Adicionar o primeiro quadro
+      {mainTab === 'rewards' ? (
+        <DadRewardsPanel />
+      ) : (
+        <div className="management-list">
+          {chapters.map((chapter, chapterIndex) => {
+            const chapterPosters = posters
+              .filter((poster) => poster.chapter === chapter.id)
+              .sort((a, b) => a.order - b.order)
+            const cover = chapterCoverUrl(chapter)
+            return (
+              <section
+                key={chapter.id}
+                className="manage-chapter fade-rise"
+                style={{ animationDelay: `${chapterIndex * 60}ms` }}
+              >
+                <header className="manage-chapter-header">
+                  <div className="manage-chapter-cover">
+                    {cover ? <img src={cover} alt="" /> : <span>{chapter.emoji || '📖'}</span>}
+                  </div>
+                  <div className="manage-chapter-title">
+                    <span>Edição #{chapterIndex + 1}</span>
+                    <h2>
+                      {chapter.title
+                        .replace(/^Edição \d+\s*—\s*/, '')
+                        .replace(/^Capítulo \d+\s*—\s*/, '')}
+                    </h2>
+                    <p>{chapter.description || 'Sem descrição.'}</p>
+                  </div>
+                  <div className="manage-actions">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => reorder(chapter, -1)}
+                      disabled={chapterIndex === 0 || busy}
+                      aria-label="Mover história para cima"
+                    >
+                      <ArrowUp />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => reorder(chapter, 1)}
+                      disabled={chapterIndex === chapters.length - 1 || busy}
+                      aria-label="Mover história para baixo"
+                    >
+                      <ArrowDown />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setChapterEditing(chapter)
+                        setChapterFormOpen(true)
+                      }}
+                    >
+                      <Edit3 /> Editar história
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="danger-button"
+                      onClick={() =>
+                        setDeleteTarget({ type: 'chapter', id: chapter.id, title: chapter.title })
+                      }
+                    >
+                      <Trash2 />
+                      <span className="desktop-button-label">Excluir</span>
                     </Button>
                   </div>
-                )}
-              </div>
-            </section>
-          )
-        })}
-      </div>
+                </header>
+
+                <div className="manage-posters">
+                  <div className="manage-posters-heading">
+                    <h3>
+                      Quadros da história <span>{chapterPosters.length}</span>
+                    </h3>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setPosterEditing(null)
+                        setPosterChapter(chapter.id)
+                      }}
+                    >
+                      <Plus /> Novo quadro
+                    </Button>
+                  </div>
+                  {chapterPosters.length ? (
+                    chapterPosters.map((poster, posterIndex) => {
+                      const art = posterImageUrl(poster, '480x0')
+                      const isPosicao = poster.kind === 'posicao'
+                      return (
+                        <article key={poster.id} className="manage-poster-row">
+                          <div className="manage-poster-image">
+                            {art ? (
+                              <img src={art} alt="" />
+                            ) : (
+                              <PosterArtwork poster={poster} thumb="480x0" compact />
+                            )}
+                            <span>{posterIndex + 1}</span>
+                          </div>
+                          <div className="manage-poster-copy">
+                            <strong>{poster.title}</strong>
+                            <span className="manage-poster-meta">
+                              <span className="badge-kind">
+                                {isPosicao ? '🥋 Posição' : '📖 História'}
+                              </span>
+                              <span>
+                                {art || poster.title ? 'Arte ilustrada' : 'Aguardando arte'}
+                              </span>
+                              {poster.caption && (
+                                <span className="caption-preview">“{poster.caption}”</span>
+                              )}
+                            </span>
+                          </div>
+                          <div className="manage-actions">
+                            <Button
+                              variant="ghost"
+                              onClick={() => {
+                                setPosterEditing(poster)
+                                setPosterChapter(chapter.id)
+                              }}
+                            >
+                              <Edit3 /> Editar
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              className="danger-button"
+                              onClick={() =>
+                                setDeleteTarget({
+                                  type: 'poster',
+                                  id: poster.id,
+                                  title: poster.title,
+                                })
+                              }
+                            >
+                              <Trash2 />
+                            </Button>
+                          </div>
+                        </article>
+                      )
+                    })
+                  ) : (
+                    <div className="manage-empty">
+                      <ImagePlus />
+                      <p>Nenhum quadro nesta história ainda.</p>
+                      <Button variant="link" onClick={() => setPosterChapter(chapter.id)}>
+                        Adicionar o primeiro quadro
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </section>
+            )
+          })}
+        </div>
+      )}
 
       <ChapterFormDialog
         open={chapterFormOpen}

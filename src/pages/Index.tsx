@@ -11,7 +11,7 @@ import { progressPercentage } from '@/lib/belts'
 import { chapterCoverUrl } from '@/services/chapters'
 
 export default function Index() {
-  const { chapters, posters, progress, loading } = useLibrary()
+  const { chapters, posters, progress, loading, currentBelt, beltAchievements } = useLibrary()
   const { isKid } = useMode()
   const learnedIds = new Set(progress.filter((item) => item.learned).map((item) => item.poster))
   const learned = learnedIds.size
@@ -97,11 +97,57 @@ export default function Index() {
       {/* App de acompanhamento de evolução / faixa dentro do gibi */}
       {isKid && (
         <div className="comic-belt-wrapper fade-rise">
-          <div className="comic-belt-header">
-            <span className="comic-badge-pill">APP DENTRO DA REVISTA</span>
-            <h3>Minha Evolução no Jiu-Jitsu</h3>
+          <div className="comic-belt-header flex items-center justify-between">
+            <div>
+              <span className="comic-badge-pill">APP DENTRO DA REVISTA</span>
+              <h3>Minha Evolução no Jiu-Jitsu</h3>
+            </div>
+            <Link
+              to="/conquistas"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100 text-amber-900 border-2 border-amber-400 font-extrabold text-sm shadow-sm hover:bg-amber-200 transition-all hover:scale-105"
+            >
+              <span>🏆 Minhas Conquistas</span>
+              <ChevronRight className="w-4 h-4" />
+            </Link>
           </div>
-          <BeltCard percentage={percentage} learned={learned} total={posters.length} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <BeltCard
+              percentage={percentage}
+              learned={learned}
+              total={posters.length}
+              belt={currentBelt}
+            />
+            {/* Card de Acesso Rápido para Recompensas */}
+            <div className="comic-card bg-amber-50/90 border-4 border-amber-300 rounded-3xl p-5 flex flex-col justify-between shadow-md">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-800 bg-amber-200/80 px-2.5 py-0.5 rounded-full">
+                    Área Especial
+                  </span>
+                  <span className="text-2xl">🥋 ⭐</span>
+                </div>
+                <h3 className="text-xl font-black text-slate-800 tracking-tight">
+                  Minhas Conquistas &amp; Rotina
+                </h3>
+                <p className="text-sm text-slate-600 mt-1 font-medium leading-snug">
+                  Veja sua <strong>Graduação de Casa</strong> com as 7 faixas, marque sua{' '}
+                  <strong>Semana de Treino</strong> e desbloqueie o{' '}
+                  <strong>Certificado do Lutador Corajoso</strong>!
+                </p>
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-slate-700 bg-white/70 p-2 rounded-xl border border-amber-200">
+                  <span>🏅 {beltAchievements.length} de 7 faixas conquistadas</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-2">
+                <Button
+                  asChild
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base shadow-md rounded-2xl py-5"
+                >
+                  <Link to="/conquistas">Abrir Minhas Conquistas 🏆</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BookOpen, LogOut, Mail, Menu, Settings, UserRound } from 'lucide-react'
+import { Award, BookOpen, LogOut, Mail, Menu, Settings, Trophy, UserRound } from 'lucide-react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
 import { EmailChangeDialog } from '@/components/EmailChangeDialog'
@@ -21,17 +21,19 @@ import { progressPercentage } from '@/lib/belts'
 import pb from '@/lib/pocketbase/client'
 
 function BeltRail({ percentage }: { percentage: number }) {
-  const colors = ['#F7F5EA', '#326DA8', '#7650A8', '#7A4E35', '#252525']
+  const colors = ['#FFFFFF', '#9CA3AF', '#6B7280', '#4B5563', '#F5C842', '#EAB308', '#CA8A04']
   return (
     <aside className="belt-rail" aria-label={`Progresso da faixa: ${percentage}%`}>
-      <span className="rail-label">Jornada</span>
-      <div className="rail-track">
-        {colors.map((color) => (
-          <span key={color} style={{ background: color }} />
-        ))}
-        <i style={{ height: `${100 - percentage}%` }} />
-      </div>
-      <strong>{percentage}%</strong>
+      <Link to="/conquistas" title="Ver Minhas Conquistas">
+        <span className="rail-label">Jornada</span>
+        <div className="rail-track">
+          {colors.map((color, idx) => (
+            <span key={idx} style={{ background: color }} />
+          ))}
+          <i style={{ height: `${100 - percentage}%` }} />
+        </div>
+        <strong>{percentage}%</strong>
+      </Link>
     </aside>
   )
 }
@@ -73,9 +75,12 @@ export default function Layout() {
             <NavLink to="/" end>
               <BookOpen /> Histórias do Gibi
             </NavLink>
+            <NavLink to="/conquistas">
+              <Trophy /> Recompensas
+            </NavLink>
             {!isKid && (
               <NavLink to="/gerenciar">
-                <Settings /> Gerenciar Gibi
+                <Settings /> Modo Pai
               </NavLink>
             )}
           </nav>
@@ -123,9 +128,12 @@ export default function Layout() {
                   <NavLink to="/">
                     <BookOpen /> Histórias do Gibi
                   </NavLink>
+                  <NavLink to="/conquistas">
+                    <Trophy /> Minhas Recompensas
+                  </NavLink>
                   {!isKid && (
                     <NavLink to="/gerenciar">
-                      <Settings /> Gerenciar Gibi
+                      <Settings /> Modo Pai (Gerenciar)
                     </NavLink>
                   )}
                 </nav>

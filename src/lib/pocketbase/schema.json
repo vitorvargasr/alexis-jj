@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-29T21:43:16.954Z",
+  "generatedAt": "2026-09-29T21:51:30.502Z",
   "collections": [
     {
       "name": "users",
@@ -238,6 +238,168 @@
       "indexes": [
         "CREATE UNIQUE INDEX idx_poster_progress_poster_user ON poster_progress (poster, user)",
         "CREATE INDEX idx_poster_progress_user ON poster_progress (user)"
+      ]
+    },
+    {
+      "name": "belt_achievements",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "user",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "belt_order",
+          "type": "number",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "achieved_at",
+          "type": "date",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_belt_achievements_user_order ON belt_achievements (user, belt_order)",
+        "CREATE INDEX idx_belt_achievements_user ON belt_achievements (user)"
+      ]
+    },
+    {
+      "name": "training_days",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "user",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "day",
+          "type": "date",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "trained",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "stars",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_training_days_user_day ON training_days (user, day)",
+        "CREATE INDEX idx_training_days_user ON training_days (user)"
+      ]
+    },
+    {
+      "name": "weekly_goals",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "user",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "week_start",
+          "type": "date",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "goal",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_weekly_goals_user_week ON weekly_goals (user, week_start)",
+        "CREATE INDEX idx_weekly_goals_user ON weekly_goals (user)"
       ]
     }
   ]
