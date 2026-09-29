@@ -2,9 +2,13 @@ import pb from '@/lib/pocketbase/client'
 import type { Poster } from '@/types/library'
 
 export const initialArtwork: Record<string, string> = {
+  'O Chamado para o Tatame': '/posters/dia-a-dia-chamado.svg',
+  'Cumprimento com o Amigo Léo': '/posters/dia-a-dia-cumprimento.svg',
   'Montada Alta': '/posters/montada-alta.svg',
   'Da Montada para as Costas': '/posters/montada-para-costas.svg',
   'Estabilizar os Cem-Quilos': '/posters/cem-quilos.svg',
+  'Celebração e Abraço no Tatame': '/posters/dia-a-dia-vitoria.svg',
+  'A Vitória do Aprendizado e o Abraço': '/posters/dia-a-dia-vitoria.svg',
 }
 
 export function listPosters(chapterId?: string) {
@@ -30,6 +34,8 @@ export function savePoster(
     title: string
     kid_text: string
     dad_tip: string
+    caption?: string
+    kind?: 'historia' | 'posicao'
     chapter: string
     order: number
     image?: File | null
@@ -40,6 +46,8 @@ export function savePoster(
   data.set('title', values.title)
   data.set('kid_text', values.kid_text)
   data.set('dad_tip', values.dad_tip)
+  if (values.caption !== undefined) data.set('caption', values.caption)
+  if (values.kind) data.set('kind', values.kind)
   data.set('chapter', values.chapter)
   data.set('order', String(values.order))
   if (values.image) data.set('image', values.image)
@@ -73,4 +81,75 @@ export async function ensureInitialArtwork() {
       }
     }),
   )
+
+  // Assegurar também que se a História 1 tiver apenas 2 quadros semeados antigos,
+  // criamos os novos quadros da história se ainda não existirem no backend
+  const chapters = await pb.collection('chapters').getFullList({ sort: 'order' })
+  const chapter1 = chapters[0]
+  if (chapter1) {
+    const existingTitles = new Set(posters.map((p) => p.title))
+    const initialStoryPanels = [
+      {
+        title: 'O Chamado para o Tatame',
+        order: 1,
+        kind: 'historia' as const,
+        caption:
+          'Sábado de manhã! Álexis acorda animado, amarra a faixa e chama o papai para o treino.',
+        kid_text:
+          'Coloque o kimono, ajuste a faixa e respire fundo: hoje é dia de aventura no tatame!',
+        dad_tip:
+          'Incentive o hábito com leveza e alegria. Ajude o Álexis a colocar o kimono e valorize o entusiasmo dele antes de qualquer técnica.',
+      },
+      {
+        title: 'Cumprimento com o Amigo Léo',
+        order: 2,
+        kind: 'historia' as const,
+        caption:
+          'No tatame, o amigo de treino Léo já está esperando. Antes de rolar: "OSS!" e um toque de punhos com respeito.',
+        kid_text:
+          'No Jiu-Jitsu, o respeito vem em primeiro lugar! Cumprimente seu parceiro com um "OSS" bem firme.',
+        dad_tip:
+          'Ensine que no tatame não há adversários perigosos, mas parceiros de aprendizado mútuo. Reforce o cumprimento e o cuidado com o amigo.',
+      },
+      {
+        title: 'Celebração e Abraço no Tatame',
+        order: 6,
+        kind: 'historia' as const,
+        caption:
+          'Fim do treino! O papai reúne Álexis e Léo num abraço cheio de orgulho: "Vocês deram um show de Jiu-Jitsu!".',
+        kid_text:
+          'Parabéns, campeão! Mais um treino concluído, amizade fortalecida e você está mais perto da próxima faixa!',
+        dad_tip:
+          'Celebre cada pequeno progresso. Elogie a dedicação, a atitude respeitosa e a coragem de tentar posições novas.',
+      },
+    ]
+
+    for (const panel of initialStoryPanels) {
+      if (!existingTitles.has(panel.title)) {
+        try {
+          const artwork = initialArtwork[panel.title]
+          let file: File | undefined
+          if (artwork) {
+            const resp = await fetch(artwork)
+            if (resp.ok) {
+              const blob = await resp.blob()
+              file = new File([blob], `${panel.title}.svg`, { type: 'image/svg+xml' })
+            }
+          }
+          await savePoster({
+            title: panel.title,
+            kid_text: panel.kid_text,
+            dad_tip: panel.dad_tip,
+            caption: panel.caption,
+            kind: panel.kind,
+            chapter: chapter1.id,
+            order: panel.order,
+            image: file,
+          })
+        } catch {
+          // Ignorar se houver restrição ou offline
+        }
+      }
+    }
+  }
 }

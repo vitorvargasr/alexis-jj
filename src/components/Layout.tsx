@@ -64,18 +64,18 @@ export default function Layout() {
       <header className="topbar">
         <div className="header-inner">
           <Link to="/" className="brand" aria-label="Ir para o início">
-            <span className="brand-mark">🥋</span>
+            <span className="brand-mark">📖</span>
             <span>
-              Jiu-Jitsu do <strong>Álexis</strong>
+              Gibi do <strong>Álexis</strong>
             </span>
           </Link>
           <nav className="desktop-nav" aria-label="Navegação principal">
             <NavLink to="/" end>
-              <BookOpen /> Biblioteca
+              <BookOpen /> Histórias do Gibi
             </NavLink>
             {!isKid && (
               <NavLink to="/gerenciar">
-                <Settings /> Gerenciar
+                <Settings /> Gerenciar Gibi
               </NavLink>
             )}
           </nav>
@@ -121,11 +121,11 @@ export default function Layout() {
                 </SheetHeader>
                 <nav className="mobile-nav">
                   <NavLink to="/">
-                    <BookOpen /> Biblioteca
+                    <BookOpen /> Histórias do Gibi
                   </NavLink>
                   {!isKid && (
                     <NavLink to="/gerenciar">
-                      <Settings /> Gerenciar
+                      <Settings /> Gerenciar Gibi
                     </NavLink>
                   )}
                 </nav>

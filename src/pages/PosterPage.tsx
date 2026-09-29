@@ -3,8 +3,11 @@ import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
+  Flame,
   MessageCircle,
+  PartyPopper,
   ShieldCheck,
+  Sparkles,
   Star,
 } from 'lucide-react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
@@ -28,6 +31,7 @@ export default function PosterPage() {
   const [saving, setSaving] = useState(false)
   const [direction, setDirection] = useState<'next' | 'prev'>('next')
   const touchStart = useRef<number | null>(null)
+
   const poster = posters.find((item) => item.id === id)
   const chapter = poster ? chapters.find((item) => item.id === poster.chapter) : undefined
   const siblings = poster
@@ -35,6 +39,7 @@ export default function PosterPage() {
     : []
   const currentIndex = siblings.findIndex((item) => item.id === id)
   const currentProgress = progress.find((item) => item.poster === id)
+  const isLastPanel = currentIndex === siblings.length - 1
 
   const move = useCallback(
     (delta: number) => {
@@ -64,9 +69,10 @@ export default function PosterPage() {
   if (!poster || !chapter || !user) return <Navigate to="/" replace />
 
   const artwork = posterImageUrl(poster)
-  const chapterProgress = progress.filter(
-    (item) => item.learned && siblings.some((sibling) => sibling.id === item.poster),
+  const learnedSiblings = siblings.filter((s) =>
+    progress.some((p) => p.poster === s.id && p.learned),
   ).length
+  const allLearned = siblings.length > 0 && learnedSiblings === siblings.length
 
   const celebrate = async () => {
     if (saving) return
@@ -76,21 +82,23 @@ export default function PosterPage() {
       const record = await earnStar(poster.id, user.id)
       setProgressRecord(record)
       setCelebrating(true)
-      window.setTimeout(() => setCelebrating(false), 1500)
+      window.setTimeout(() => setCelebrating(false), 2400)
     } finally {
       setSaving(false)
     }
   }
 
+  const isPosicao = poster.kind === 'posicao'
+
   return (
-    <div className="page viewer-page">
+    <div className="page viewer-page comic-reader-page">
       {celebrating && <Confetti />}
       <div className="viewer-topline">
         <Link to={`/capitulo/${chapter.id}`} className="back-link">
-          <ArrowLeft /> Voltar ao capítulo
+          <ArrowLeft /> Voltar para a história
         </Link>
-        <span>
-          {chapter.emoji} Capítulo {chapters.findIndex((item) => item.id === chapter.id) + 1}
+        <span className="comic-issue-tag">
+          {chapter.emoji || '📖'} {chapter.title.replace(/^Edição \d+\s*—\s*/, '')}
         </span>
       </div>
 
@@ -99,13 +107,14 @@ export default function PosterPage() {
           className="viewer-arrow previous"
           onClick={() => move(-1)}
           disabled={currentIndex === 0}
-          aria-label="Pôster anterior"
+          aria-label="Quadro anterior"
         >
           <ChevronLeft />
         </button>
+
         <section
           key={poster.id}
-          className={`poster-view slide-page slide-${direction}`}
+          className={`poster-view slide-page slide-${direction} comic-panel-view`}
           onTouchStart={(event) => {
             touchStart.current = event.touches[0].clientX
           }}
@@ -116,40 +125,80 @@ export default function PosterPage() {
             touchStart.current = null
           }}
         >
-          <div className="paper-frame">
-            <div className="tape tape-left" aria-hidden="true" />
-            <div className="tape tape-right" aria-hidden="true" />
+          {/* Quadro do Gibi com moldura forte, balão e legenda estilo gibi */}
+          <div className="paper-frame comic-frame">
+            <div className="comic-corner-tag">
+              {isPosicao ? (
+                <>
+                  <Flame /> Posição de Jiu-Jitsu
+                </>
+              ) : (
+                <>
+                  <Sparkles /> História do Álexis
+                </>
+              )}
+            </div>
+
+            {/* Número do quadro estilo revista */}
+            <div className="comic-panel-badge">
+              Quadro {currentIndex + 1} de {siblings.length}
+            </div>
+
             {artwork ? (
-              <img src={artwork} alt={`Pôster ilustrado: ${poster.title}`} />
+              <img src={artwork} alt={`Quadro do Gibi: ${poster.title}`} />
             ) : (
               <EmptyArtwork />
             )}
+
             {currentProgress?.learned && (
               <div className="gold-ribbon">
-                <Star /> Aprendido
+                <Star /> Aprendido!
               </div>
             )}
           </div>
 
-          <div className="viewer-copy">
+          <div className="viewer-copy comic-viewer-copy">
             {isKid ? (
               <>
                 <div className="kid-title-row">
                   <div>
-                    <span className="eyebrow">Missão do tatame</span>
+                    <span className="eyebrow comic-eyebrow">
+                      {isPosicao ? '🥋 Aprenda no tatame' : '📖 O dia a dia com o papai'}
+                    </span>
                     <h1>{poster.title}</h1>
                   </div>
                   <span className={celebrating ? 'star-medal star-pop' : 'star-medal'}>★</span>
                 </div>
-                <div className="speech-bubble">
+
+                {/* Balão de narração / legenda do gibi */}
+                {poster.caption && (
+                  <div className="comic-caption-box">
+                    <span className="comic-narrator-tag">NARRAÇÃO DO GIBI</span>
+                    <p>{poster.caption}</p>
+                  </div>
+                )}
+
+                {/* Balão de fala alegre */}
+                <div className="speech-bubble comic-speech-bubble">
                   <MessageCircle />
-                  <p>{poster.kid_text}</p>
+                  <p>{poster.kid_text || poster.caption}</p>
                 </div>
-                <Button className="learn-button" onClick={celebrate} disabled={saving}>
+
+                {/* Botão de conquista / estrela */}
+                <Button
+                  className="learn-button comic-learn-button"
+                  onClick={celebrate}
+                  disabled={saving}
+                >
                   <span className={celebrating ? 'star-pop' : ''}>
-                    {saving ? 'Guardando...' : 'Consegui! ⭐'}
+                    {saving
+                      ? 'Guardando...'
+                      : currentProgress?.learned
+                        ? 'Praticar de novo! ⭐'
+                        : 'Consegui! ⭐'}
                   </span>
                 </Button>
+
                 <div
                   className="earned-stars"
                   aria-label={`${currentProgress?.stars || 0} de 3 estrelas`}
@@ -163,39 +212,79 @@ export default function PosterPage() {
                   <span>
                     {currentProgress?.stars
                       ? `${currentProgress.stars} estrela${currentProgress.stars > 1 ? 's' : ''} conquistada${currentProgress.stars > 1 ? 's' : ''}!`
-                      : 'Você pode conquistar até 3 estrelas'}
+                      : 'Toque para marcar e ganhar estrelas'}
                   </span>
                 </div>
+
+                {/* Se for o último quadro e tudo foi lido/treinado, mostra comemoração final de história */}
+                {isLastPanel && (
+                  <div className="comic-story-celebration fade-rise">
+                    <div className="celebration-badge">
+                      <PartyPopper /> Fim desta aventura!
+                    </div>
+                    <h3>Você completou esta história do gibi! 🎉</h3>
+                    <p>
+                      O Álexis e o papai têm muito orgulho de você no tatame. Veja a evolução da sua
+                      faixa!
+                    </p>
+                    <div className="celebration-actions">
+                      <Button asChild className="celebrate-home-btn">
+                        <Link to="/">Ver minha faixa na capa ⭐</Link>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          const target = siblings[0]
+                          if (target) navigate(`/poster/${target.id}`)
+                        }}
+                      >
+                        Ler história de novo 🔄
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               <>
                 <div className="dad-view-title">
-                  <span className="eyebrow">Pôster de treino</span>
+                  <span className="eyebrow">
+                    {isPosicao ? 'Quadro de técnica / posição' : 'Quadro narrativo da história'}
+                  </span>
                   <h1>{poster.title}</h1>
                 </div>
+
+                {poster.caption && (
+                  <section className="dad-caption-panel">
+                    <span className="dad-caption-tag">LEGENDA DO QUADRINHO</span>
+                    <p>{poster.caption}</p>
+                  </section>
+                )}
+
                 <section className="dad-tip-panel">
                   <div className="dad-tip-label">
-                    <ShieldCheck /> PARA O PAI
+                    <ShieldCheck /> ORIENTAÇÃO PARA O PAPAI
                   </div>
                   <p>
-                    {poster.dad_tip || 'Adicione uma orientação para este pôster em Gerenciar.'}
+                    {poster.dad_tip || 'Adicione uma orientação para este quadro em Gerenciar.'}
                   </p>
                 </section>
+
                 <section className="say-panel">
                   <span>
-                    <MessageCircle /> Fale com o Álexis
+                    <MessageCircle /> Como falar com o Álexis neste quadro
                   </span>
-                  <p>“{poster.kid_text}”</p>
+                  <p>“{poster.kid_text || poster.caption}”</p>
                 </section>
               </>
             )}
           </div>
         </section>
+
         <button
           className="viewer-arrow next"
           onClick={() => move(1)}
           disabled={currentIndex === siblings.length - 1}
-          aria-label="Próximo pôster"
+          aria-label="Próximo quadro"
         >
           <ChevronRight />
         </button>
@@ -203,25 +292,27 @@ export default function PosterPage() {
 
       <div className="viewer-mobile-nav">
         <Button variant="outline" onClick={() => move(-1)} disabled={currentIndex === 0}>
-          <ChevronLeft /> Anterior
+          <ChevronLeft /> Quadro anterior
         </Button>
         <Button
           variant="outline"
           onClick={() => move(1)}
           disabled={currentIndex === siblings.length - 1}
         >
-          Próximo <ChevronRight />
+          Próximo quadro <ChevronRight />
         </Button>
       </div>
-      <div className="poster-pager">
+
+      <div className="poster-pager comic-pager">
         <strong>
-          Pôster {currentIndex + 1} de {siblings.length}
+          Página / Quadro {currentIndex + 1} de {siblings.length}
         </strong>
         <span>·</span>
         <span>{chapter.title}</span>
         {isKid && (
           <small>
-            {chapterProgress}/{siblings.length} aprendidos neste capítulo
+            {learnedSiblings}/{siblings.length} quadros concluídos nesta história
+            {allLearned && ' · História Concluída! 🏆'}
           </small>
         )}
       </div>

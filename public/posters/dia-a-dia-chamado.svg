@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1080" role="img" aria-labelledby="title-1 desc-1">
+  <title id="title-1">O Chamado para o Tatame</title>
+  <desc id="desc-1">Álexis animado amarrando a faixa com o pai Vítor antes do treino de Jiu-Jitsu.</desc>
+  <defs>
+    <linearGradient id="bg1" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#fdf0d5"/></linearGradient>
+    <linearGradient id="header1" x2="1" y2="1"><stop stop-color="#ff7b39"/><stop offset="1" stop-color="#d94b15"/></linearGradient>
+    <filter id="shadow1"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#552200" flood-opacity=".18"/></filter>
+  </defs>
+  <rect width="760" height="1080" fill="url(#bg1)"/>
+  
+  <!-- Moldura Estilo Quadrinho -->
+  <rect x="24" y="24" width="712" height="1032" rx="20" fill="none" stroke="#1e3a5f" stroke-width="8"/>
+  <rect x="36" y="36" width="688" height="1008" rx="14" fill="#ffffff" stroke="#1e3a5f" stroke-width="3"/>
+
+  <!-- Cabeçalho Comic -->
+  <path d="M70 54 Q380 32 690 54 L676 126 H84 Z" fill="url(#header1)" filter="url(#shadow1)"/>
+  <text x="380" y="104" text-anchor="middle" fill="#ffffff" font-family="'Baloo 2', sans-serif" font-weight="900" font-size="34" letter-spacing="1">EDIÇÃO #1 · O DIA A DIA NO TATAME</text>
+
+  <!-- Balão de Narração Estilo gibi (topo) -->
+  <g transform="translate(60 148)">
+    <rect width="640" height="92" rx="16" fill="#fef08a" stroke="#1e3a5f" stroke-width="4"/>
+    <text x="30" y="40" fill="#1e3a5f" font-family="'Baloo 2', sans-serif" font-weight="800" font-size="22">SÁBADO DE MANHÃ EM CASA...</text>
+    <text x="30" y="70" fill="#334155" font-family="'Baloo 2', sans-serif" font-weight="600" font-size="20">"Papai! Hoje tem treino com o Léo!", comemora o Álexis amarrando a faixa.</text>
+  </g>
+
+  <!-- Cena Central Ilustrada -->
+  <g transform="translate(60 260)">
+    <!-- Fundo do tatame na sala/academia -->
+    <rect width="640" height="500" rx="22" fill="#e0f2fe" stroke="#1e3a5f" stroke-width="5"/>
+    <path d="M0 380 Q320 350 640 380 L640 500 L0 500 Z" fill="#0284c7"/>
+    <path d="M0 400 L640 400" stroke="#bae6fd" stroke-width="4" stroke-dasharray="16 12"/>
+
+    <!-- Pai Vítor (em pé, kimono azul marinho, faixa preta com ponta vermelha) -->
+    <g transform="translate(100 70)">
+      <!-- Sombra -->
+      <ellipse cx="90" cy="350" rx="70" ry="16" fill="#0369a1" opacity="0.4"/>
+      <!-- Corpo Pai -->
+      <circle cx="90" cy="80" r="46" fill="#f6c492" stroke="#1e3a5f" stroke-width="5"/>
+      <!-- Cabelo / barba Pai -->
+      <path d="M48 65 Q90 20 132 65 Q110 40 70 45 Z" fill="#332211"/>
+      <path d="M56 95 Q90 135 124 95 Q105 125 75 122 Z" fill="#332211"/>
+      <!-- Olhos e sorriso Pai -->
+      <circle cx="76" cy="80" r="5" fill="#1e3a5f"/>
+      <circle cx="104" cy="80" r="5" fill="#1e3a5f"/>
+      <path d="M82 98 Q90 108 98 98" stroke="#1e3a5f" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- Kimono Pai (Azul) -->
+      <path d="M40 130 L140 130 L165 310 L15 310 Z" fill="#1e3a5f" stroke="#0f172a" stroke-width="5"/>
+      <path d="M40 130 L95 240 L140 130" stroke="#f8fafc" stroke-width="6" fill="none"/>
+      <!-- Faixa Preta -->
+      <rect x="25" y="235" width="130" height="22" rx="4" fill="#09090b" stroke="#0f172a" stroke-width="3"/>
+      <rect x="110" y="235" width="30" height="22" fill="#dc2626"/>
+      <rect x="126" y="235" width="10" height="22" fill="#ffffff"/>
+      <!-- Mão do Pai apoiando ombro do filho -->
+      <circle cx="180" cy="220" r="16" fill="#f6c492" stroke="#1e3a5f" stroke-width="4"/>
+    </g>
+
+    <!-- Álexis (protagonista criança, kimono branco sorridente) -->
+    <g transform="translate(360 140)">
+      <!-- Sombra -->
+      <ellipse cx="90" cy="280" rx="55" ry="14" fill="#0369a1" opacity="0.4"/>
+      <!-- Cabeça Álexis -->
+      <circle cx="90" cy="70" r="42" fill="#fcd34d" stroke="#1e3a5f" stroke-width="5"/>
+      <!-- Cabelo castanho espetadinho -->
+      <path d="M50 65 Q90 20 130 65 Q115 30 90 35 Q65 30 50 65" fill="#78350f"/>
+      <path d="M65 35 L75 15 L85 32 L95 12 L105 32" stroke="#78350f" stroke-width="6" stroke-linecap="round"/>
+      <!-- Olhos brilhantes e sorriso alegre -->
+      <ellipse cx="75" cy="70" rx="5" ry="6" fill="#1e3a5f"/>
+      <ellipse cx="105" cy="70" rx="5" ry="6" fill="#1e3a5f"/>
+      <circle cx="77" cy="68" r="2" fill="#ffffff"/>
+      <circle cx="107" cy="68" r="2" fill="#ffffff"/>
+      <path d="M78 86 Q90 102 102 86" stroke="#b91c1c" stroke-width="5" fill="#fca5a5" stroke-linecap="round"/>
+      <!-- Kimono Branco -->
+      <path d="M48 116 L132 116 L150 250 L30 250 Z" fill="#ffffff" stroke="#1e3a5f" stroke-width="5"/>
+      <path d="M52 116 L90 190 L128 116" stroke="#94a3b8" stroke-width="5" fill="none"/>
+      <!-- Faixa Branca com nó caprichado -->
+      <rect x="35" y="195" width="110" height="18" rx="4" fill="#f8fafc" stroke="#1e3a5f" stroke-width="3"/>
+      <path d="M85 208 L80 245 M95 208 L100 245" stroke="#f8fafc" stroke-width="8" stroke-linecap="round"/>
+      <path d="M85 208 L80 245 M95 208 L100 245" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+      <!-- Braço comemorando "Yes!" -->
+      <path d="M130 140 Q170 120 160 85" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+      <path d="M130 140 Q170 120 160 85" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <circle cx="160" cy="80" r="14" fill="#fcd34d" stroke="#1e3a5f" stroke-width="4"/>
+    </g>
+
+    <!-- Efeito onomatopeia / impacto amigável estilo gibi -->
+    <g transform="translate(520 80) rotate(12)">
+      <polygon points="40,0 55,25 85,20 65,45 80,75 50,65 35,95 25,65 -5,60 15,40 -5,15 25,25" fill="#f59e0b" stroke="#1e3a5f" stroke-width="4"/>
+      <text x="36" y="50" text-anchor="middle" fill="#ffffff" font-family="'Baloo 2', sans-serif" font-weight="900" font-size="20">OSS!</text>
+    </g>
+  </g>
+
+  <!-- Balão de Fala do Pai -->
+  <g transform="translate(80 780)">
+    <path d="M40 0 L460 0 C475 0 485 10 485 24 L485 96 C485 110 475 120 460 120 L160 120 L120 148 L130 120 L40 120 C25 120 15 110 15 24 C15 10 25 0 40 0 Z" fill="#ffffff" stroke="#1e3a5f" stroke-width="5"/>
+    <text x="45" y="42" fill="#e0592a" font-family="'Baloo 2', sans-serif" font-weight="800" font-size="22">PAPAI VÍTOR:</text>
+    <text x="45" y="74" fill="#1e3a5f" font-family="'Baloo 2', sans-serif" font-weight="700" font-size="20">"Isso aí, filhão! Respira fundo, respeita seu amigo</text>
+    <text x="45" y="102" fill="#1e3a5f" font-family="'Baloo 2', sans-serif" font-weight="700" font-size="20">e lembra: a gente aprende se divertindo!"</text>
+  </g>
+
+  <!-- Rodapé tipo gibi -->
+  <g transform="translate(60 946)">
+    <rect width="640" height="74" rx="16" fill="#1e3a5f"/>
+    <text x="320" y="46" text-anchor="middle" fill="#ffffff" font-family="'Baloo 2', sans-serif" font-weight="700" font-size="20">QUADRO 1 · COMEÇA A AVENTURA NO TATAME ⭐</text>
+  </g>
+</svg>

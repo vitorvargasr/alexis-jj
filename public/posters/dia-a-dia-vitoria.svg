@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1080" role="img" aria-labelledby="title-3 desc-3">
+  <title id="title-3">A Vitória do Aprendizado e o Abraço</title>
+  <desc id="desc-3">Pai Vítor abraça Álexis e o amigo Léo ao final do treino, celebrando a evolução de faixa.</desc>
+  <defs>
+    <linearGradient id="bg3" x2="0" y2="1"><stop stop-color="#fffef6"/><stop offset="1" stop-color="#ecfdf5"/></linearGradient>
+    <linearGradient id="header3" x2="1" y2="1"><stop stop-color="#059669"/><stop offset="1" stop-color="#047857"/></linearGradient>
+    <filter id="shadow3"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#064e3b" flood-opacity=".2"/></filter>
+  </defs>
+  <rect width="760" height="1080" fill="url(#bg3)"/>
+  
+  <!-- Moldura Estilo Quadrinho -->
+  <rect x="24" y="24" width="712" height="1032" rx="20" fill="none" stroke="#1e3a5f" stroke-width="8"/>
+  <rect x="36" y="36" width="688" height="1008" rx="14" fill="#ffffff" stroke="#1e3a5f" stroke-width="3"/>
+
+  <!-- Cabeçalho Comic -->
+  <path d="M70 54 Q380 32 690 54 L676 126 H84 Z" fill="url(#header3)" filter="url(#shadow3)"/>
+  <text x="380" y="104" text-anchor="middle" fill="#ffffff" font-family="'Baloo 2', sans-serif" font-weight="900" font-size="34" letter-spacing="1">EDIÇÃO #1 · CELEBRAÇÃO NO TATAME</text>
+
+  <!-- Balão de Narração Estilo gibi (topo) -->
+  <g transform="translate(60 148)">
+    <rect width="640" height="92" rx="16" fill="#fef08a" stroke="#1e3a5f" stroke-width="4"/>
+    <text x="30" y="40" fill="#1e3a5f" font-family="'Baloo 2', sans-serif" font-weight="800" font-size="22">FIM DO TREINO DE HOJE...</text>
+    <text x="30" y="70" fill="#334155" font-family="'Baloo 2', sans-serif" font-weight="600" font-size="20">Álexis aprendeu a montada, as costas e a estabilizar! O papai chama para o abraço coletivo.</text>
+  </g>
+
+  <!-- Cena Central Ilustrada -->
+  <g transform="translate(60 260)">
+    <!-- Fundo alegre com raios de sol e estrelas de gibi -->
+    <rect width="640" height="500" rx="22" fill="#ecfdf5" stroke="#1e3a5f" stroke-width="5"/>
+    <circle cx="320" cy="280" r="180" fill="#a7f3d0" opacity="0.4"/>
+    <path d="M0 400 Q320 370 640 400 L640 500 L0 500 Z" fill="#059669"/>
+
+    <!-- Estrelas e brilhos de conquista -->
+    <g fill="#f59e0b">
+      <polygon points="120,40 126,58 145,60 131,73 135,92 120,82 105,92 109,73 95,60 114,58"/>
+      <polygon points="520,50 525,65 541,67 529,78 532,94 520,86 508,94 511,78 499,67 515,65"/>
+      <polygon points="320,30 327,48 346,50 332,63 336,82 320,72 304,82 308,63 294,50 313,48"/>
+    </g>
+
+    <!-- Pai Vítor no centro agachado abraçando os dois -->
+    <g transform="translate(230 60)">
+      <circle cx="90" cy="70" r="44" fill="#f6c492" stroke="#1e3a5f" stroke-width="5"/>
+      <path d="M50 55 Q90 15 130 55" fill="#332211"/>
+      <path d="M56 86 Q90 125 124 86" stroke="#332211" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="76" cy="68" r="4" fill="#1e3a5f"/>
+      <circle cx="104" cy="68" r="4" fill="#1e3a5f"/>
+      <!-- Kimono Pai abrindo os braços largos -->
+      <path d="M35 120 L145 120 L170 310 L10 310 Z" fill="#1e3a5f" stroke="#0f172a" stroke-width="5"/>
+      <!-- Braço esquerdo envolvendo Álexis -->
+      <path d="M40 135 Q-50 160 -100 210" stroke="#1e3a5f" stroke-width="26" stroke-linecap="round"/>
+      <path d="M40 135 Q-50 160 -100 210" stroke="#0f172a" stroke-width="4" fill="none"/>
+      <circle cx="-100" cy="210" r="16" fill="#f6c492" stroke="#1e3a5f" stroke-width="3"/>
+      <!-- Braço direito envolvendo Léo -->
+      <path d="M140 135 Q230 160 280 210" stroke="#1e3a5f" stroke-width="26" stroke-linecap="round"/>
+      <path d="M140 135 Q230 160 280 210" stroke="#0f172a" stroke-width="4" fill="none"/>
+      <circle cx="280" cy="210" r="16" fill="#f6c492" stroke="#1e3a5f" stroke-width="3"/>
+      <!-- Faixa preta com graus -->
+      <rect x="25" y="235" width="130" height="20" fill="#09090b" stroke="#0f172a" stroke-width="3"/>
+      <rect x="110" y="235" width="30" height="20" fill="#dc2626"/>
+      <rect x="126" y="235" width="8" height="20" fill="#ffffff"/>
+    </g>
+
+    <!-- Álexis coladinho no papai comemorando -->
+    <g transform="translate(110 140)">
+      <circle cx="70" cy="60" r="38" fill="#fcd34d" stroke="#1e3a5f" stroke-width="4"/>
+      <path d="M35 50 Q70 12 105 50" fill="#78350f"/>
+      <ellipse cx="58" cy="60" rx="4" ry="5" fill="#1e3a5f"/>
+      <ellipse cx="82" cy="60" rx="4" ry="5" fill="#1e3a5f"/>
+      <path d="M60 76 Q70 88 80 76" stroke="#b91c1c" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M35 100 L105 100 L115 240 L25 240 Z" fill="#ffffff" stroke="#1e3a5f" stroke-width="4"/>
+      <rect x="30" y="170" width="80" height="15" fill="#f8fafc" stroke="#1e3a5f" stroke-width="2"/>
+    </g>
+
+    <!-- Amigo Léo coladinho no papai também comemorando -->
+    <g transform="translate(420 140)">
+      <circle cx="70" cy="60" r="38" fill="#fed7aa" stroke="#1e3a5f" stroke-width="4"/>
+      <path d="M35 50 Q70 12 105 50" fill="#1c1917"/>
+      <ellipse cx="58" cy="60" rx="4" ry="5" fill="#1e3a5f"/>
+      <ellipse cx="82" cy="60" rx="4" ry="5" fill="#1e3a5f"/>
+      <path d="M60 76 Q70 88 80 76" stroke="#b91c1c" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M35 100 L105 100 L115 240 L25 240 Z" fill="#2563eb" stroke="#1e3a5f" stroke-width="4"/>
+      <rect x="30" y="170" width="80" height="15" fill="#f8fafc" stroke="#1e3a5f" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- Balão de Celebração Estilo gibi -->
+  <g transform="translate(80 780)">
+    <path d="M30 0 L490 0 C505 0 515 10 515 22 L515 96 C515 110 505 120 490 120 L280 120 L250 146 L260 120 L30 120 C15 120 5 110 5 22 C5 10 15 0 30 0 Z" fill="#ffffff" stroke="#1e3a5f" stroke-width="5"/>
+    <text x="40" y="42" fill="#059669" font-family="'Baloo 2', sans-serif" font-weight="800" font-size="22">PAPAI VÍTOR ORGULHOSO:</text>
+    <text x="40" y="74" fill="#1e3a5f" font-family="'Baloo 2', sans-serif" font-weight="700" font-size="20">"Que orgulho de vocês dois! Mais um dia de aprendizado,"</text>
+    <text x="40" y="102" fill="#1e3a5f" font-family="'Baloo 2', sans-serif" font-weight="700" font-size="20">"amizade de verdade e um passo rumo à próxima faixa!"</text>
+  </g>
+
+  <!-- Rodapé tipo gibi -->
+  <g transform="translate(60 946)">
+    <rect width="640" height="74" rx="16" fill="#047857"/>
+    <text x="320" y="46" text-anchor="middle" fill="#ffffff" font-family="'Baloo 2', sans-serif" font-weight="700" font-size="20">QUADRO 6 · MISSÃO CUMPRIDA! VOCÊ GANHOU ESTRELAS ⭐</text>
+  </g>
+</svg>

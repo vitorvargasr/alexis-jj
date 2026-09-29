@@ -12,6 +12,8 @@ export interface Poster extends RecordModel {
   title: string
   kid_text: string
   dad_tip: string
+  caption?: string
+  kind?: 'historia' | 'posicao'
   image: string
   chapter: string
   order: number

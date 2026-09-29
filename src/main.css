@@ -220,9 +220,9 @@
   mask-image: linear-gradient(to bottom, black, transparent 65%);
 }
 .app-shell.kid-mode {
-  --page-bg: var(--sky);
+  --page-bg: #edf6fd;
   --card-radius: 24px;
-  --card-border: 3px solid var(--navy);
+  --card-border: 3.5px solid var(--navy);
   --card-shadow: 6px 7px 0 var(--navy);
 }
 .topbar {
@@ -1373,6 +1373,493 @@ p {
   height: 20px;
   border-radius: 3px;
   animation: confetti-burst 1.2s ease-in both;
+}
+
+/* ==========================================================================
+   ESTILOS GIBI / HISTÓRIA EM QUADRINHOS (Álexis, Papai e Léo)
+   ========================================================================== */
+.comic-cover-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 28px;
+  padding: 32px 32px 24px;
+  background: linear-gradient(135deg, #fffcf2 0%, #fffaea 50%, #fef3c7 100%);
+  border: 4px solid var(--navy);
+  border-radius: 26px;
+  box-shadow: 8px 9px 0 var(--navy);
+}
+.comic-cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.comic-logo-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.comic-price-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: var(--gold);
+  border: 2px solid var(--navy);
+  color: var(--navy);
+  font-weight: 900;
+  font-size: 13px;
+  transform: rotate(3deg);
+  box-shadow: 2px 2px 0 var(--navy);
+}
+.comic-cover-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.comic-masthead-sub {
+  display: inline-block;
+  color: var(--orange);
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+}
+.comic-masthead-title {
+  margin: 6px 0 12px;
+  font-size: clamp(34px, 5.5vw, 56px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--navy);
+  text-shadow:
+    2px 2px 0 #fff,
+    4px 4px 0 rgba(30, 58, 95, 0.15);
+}
+.comic-masthead-title .highlight {
+  color: var(--orange);
+  display: inline-block;
+  transform: rotate(-1deg);
+}
+.comic-masthead-desc {
+  max-width: 660px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.45;
+}
+.comic-burst {
+  flex-shrink: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  border: 4px solid var(--navy);
+  color: #fff;
+  box-shadow: 5px 6px 0 var(--navy);
+  transform: rotate(8deg);
+  animation: star-pop 0.5s ease-out;
+}
+.comic-burst span {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
+}
+.comic-burst small {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.comic-cover-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 2px dashed rgba(30, 58, 95, 0.2);
+}
+.strip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+}
+.strip-item svg {
+  width: 18px;
+  color: var(--orange);
+}
+
+.comic-continue-card {
+  border: 3.5px solid var(--navy) !important;
+  box-shadow: 7px 8px 0 var(--navy) !important;
+}
+.comic-action-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--gold);
+  border: 2px solid var(--navy);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--navy);
+}
+.continue-caption {
+  display: block;
+  font-style: italic;
+  font-size: 14px;
+  color: #556987;
+  margin-bottom: 8px;
+}
+
+.comic-belt-wrapper {
+  margin: 32px 0 36px;
+  padding: 24px 28px;
+  background: #ffffff;
+  border: 3px solid var(--navy);
+  border-radius: 22px;
+  box-shadow: 6px 6px 0 var(--navy);
+}
+.comic-belt-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.comic-badge-pill {
+  padding: 4px 12px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+.comic-belt-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--navy);
+}
+
+.comic-issue-card {
+  border: 3.5px solid var(--navy) !important;
+  box-shadow: 6px 7px 0 var(--navy) !important;
+  border-radius: 20px !important;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.comic-issue-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 8px 10px 0 var(--navy) !important;
+}
+.comic-issue-cover {
+  position: relative;
+  background: #f1f5f9;
+}
+.comic-issue-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 900;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.comic-complete-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--green);
+  border: 2px solid var(--navy);
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.comic-card-footer {
+  margin-top: 14px;
+}
+.comic-panels-count {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+
+/* Leitor de Gibi (PosterPage) */
+.comic-reader-page {
+  max-width: 1180px;
+}
+.comic-issue-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--navy);
+  background: #ffffff;
+  border: 2px solid var(--navy);
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--navy);
+}
+.comic-frame {
+  position: relative;
+  padding: 14px;
+  border: 4px solid var(--navy) !important;
+  box-shadow: 9px 10px 0 var(--navy) !important;
+  border-radius: 20px !important;
+  background: #fffefb !important;
+}
+.comic-corner-tag {
+  position: absolute;
+  top: -14px;
+  left: 18px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: var(--orange);
+  color: #fff;
+  font-weight: 900;
+  font-size: 13px;
+  border: 2px solid var(--navy);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--navy);
+}
+.comic-corner-tag svg {
+  width: 15px;
+}
+.comic-panel-badge {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  z-index: 5;
+  background: rgba(30, 58, 95, 0.92);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.comic-caption-box {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  background: #fef08a;
+  border: 3px solid var(--navy);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--navy);
+}
+.comic-narrator-tag {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.comic-caption-box p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.4;
+}
+.comic-speech-bubble {
+  border: 3.5px solid var(--navy) !important;
+  box-shadow: 5px 6px 0 var(--gold) !important;
+}
+.comic-story-celebration {
+  margin-top: 26px;
+  padding: 24px;
+  background: #ecfdf5;
+  border: 3.5px solid #059669;
+  border-radius: 20px;
+  box-shadow: 6px 7px 0 #064e3b;
+  text-align: center;
+}
+.celebration-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  background: #059669;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.comic-story-celebration h3 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  color: #064e3b;
+}
+.comic-story-celebration p {
+  margin: 0 0 18px;
+  font-size: 16px;
+  color: #047857;
+}
+.celebration-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.celebrate-home-btn {
+  background: #059669 !important;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.dad-caption-panel {
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border: 2px dashed #94a3b8;
+  border-radius: 12px;
+}
+.dad-caption-tag {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #475569;
+  margin-bottom: 4px;
+}
+.dad-caption-panel p {
+  margin: 0;
+  font-size: 16px;
+  color: #1e293b;
+  font-style: italic;
+}
+
+/* Capítulo / Página da Edição */
+.comic-issue-hero {
+  border: 3.5px solid var(--navy) !important;
+  box-shadow: 7px 8px 0 var(--navy) !important;
+}
+.comic-issue-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.start-reading-btn {
+  background: var(--orange) !important;
+  font-weight: 800;
+}
+.comic-issue-progress-box {
+  margin-top: 14px;
+  max-width: 480px;
+}
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.comic-hero-burst {
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--gold);
+}
+.comic-panel-card {
+  border: 3.5px solid var(--navy) !important;
+  box-shadow: 5px 6px 0 var(--navy) !important;
+}
+.comic-panel-number {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.comic-type-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.comic-type-tag svg {
+  width: 12px;
+  color: var(--orange);
+}
+.comic-panel-caption {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+.read-panel-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--orange);
+}
+
+/* Modo Pai Gerenciar Gibi */
+.manage-poster-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+.badge-kind {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--navy);
+}
+.caption-preview {
+  font-style: italic;
+  font-size: 12px;
+  color: #94a3b8;
 }
 
 .management-hero {

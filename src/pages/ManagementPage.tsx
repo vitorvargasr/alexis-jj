@@ -5,10 +5,12 @@ import {
   ArrowUp,
   Edit3,
   FileImage,
+  Flame,
   FolderPlus,
   ImagePlus,
   Plus,
   Save,
+  Sparkles,
   Trash2,
   X,
 } from 'lucide-react'
@@ -45,6 +47,8 @@ interface ChapterDraft {
 
 interface PosterDraft {
   title: string
+  caption: string
+  kind: 'historia' | 'posicao'
   kid_text: string
   dad_tip: string
   chapter: string
@@ -55,12 +59,14 @@ interface PosterDraft {
 const emptyChapter = (order: number): ChapterDraft => ({
   title: '',
   description: '',
-  emoji: '🥋',
+  emoji: '📖',
   order,
   cover: null,
 })
 const emptyPoster = (chapter: string, order: number): PosterDraft => ({
   title: '',
+  caption: '',
+  kind: 'historia',
   kid_text: '',
   dad_tip: '',
   chapter,
@@ -118,13 +124,16 @@ export default function ManagementPage() {
   return (
     <div className="page management-page">
       <Link to="/" className="back-link">
-        <ArrowLeft /> Voltar para a biblioteca
+        <ArrowLeft /> Voltar para o gibi
       </Link>
       <header className="management-hero fade-rise">
         <div>
-          <span className="eyebrow">Estúdio do papai</span>
-          <h1>Gerenciar a biblioteca</h1>
-          <p>Organize os capítulos, escreva dicas e envie novas ilustrações para o Álexis.</p>
+          <span className="eyebrow">Estúdio do Gibi</span>
+          <h1>Gerenciar Histórias e Quadrinhos</h1>
+          <p>
+            Crie edições da revista, adicione quadros da rotina do Álexis e ensine posições de
+            Jiu-Jitsu no fluxo narrativo.
+          </p>
         </div>
         <Button
           onClick={() => {
@@ -132,7 +141,7 @@ export default function ManagementPage() {
             setChapterFormOpen(true)
           }}
         >
-          <FolderPlus /> Novo capítulo
+          <FolderPlus /> Nova história / edição
         </Button>
       </header>
 
@@ -148,17 +157,17 @@ export default function ManagementPage() {
       <section className="studio-summary">
         <div>
           <strong>{chapters.length}</strong>
-          <span>capítulos</span>
+          <span>histórias/edições</span>
         </div>
         <div>
           <strong>{posters.length}</strong>
-          <span>pôsteres</span>
+          <span>quadros no total</span>
         </div>
         <div>
           <strong>
             {posters.filter((poster) => poster.image || posterImageUrl(poster)).length}
           </strong>
-          <span>com ilustração</span>
+          <span>com arte ilustrada</span>
         </div>
       </section>
 
@@ -176,11 +185,15 @@ export default function ManagementPage() {
             >
               <header className="manage-chapter-header">
                 <div className="manage-chapter-cover">
-                  {cover ? <img src={cover} alt="" /> : <span>{chapter.emoji || '🥋'}</span>}
+                  {cover ? <img src={cover} alt="" /> : <span>{chapter.emoji || '📖'}</span>}
                 </div>
                 <div className="manage-chapter-title">
-                  <span>Capítulo {chapterIndex + 1}</span>
-                  <h2>{chapter.title.replace(/^Capítulo \d+\s*—\s*/, '')}</h2>
+                  <span>Edição #{chapterIndex + 1}</span>
+                  <h2>
+                    {chapter.title
+                      .replace(/^Edição \d+\s*—\s*/, '')
+                      .replace(/^Capítulo \d+\s*—\s*/, '')}
+                  </h2>
                   <p>{chapter.description || 'Sem descrição.'}</p>
                 </div>
                 <div className="manage-actions">
@@ -189,7 +202,7 @@ export default function ManagementPage() {
                     size="icon"
                     onClick={() => reorder(chapter, -1)}
                     disabled={chapterIndex === 0 || busy}
-                    aria-label="Mover capítulo para cima"
+                    aria-label="Mover história para cima"
                   >
                     <ArrowUp />
                   </Button>
@@ -198,7 +211,7 @@ export default function ManagementPage() {
                     size="icon"
                     onClick={() => reorder(chapter, 1)}
                     disabled={chapterIndex === chapters.length - 1 || busy}
-                    aria-label="Mover capítulo para baixo"
+                    aria-label="Mover história para baixo"
                   >
                     <ArrowDown />
                   </Button>
@@ -209,7 +222,7 @@ export default function ManagementPage() {
                       setChapterFormOpen(true)
                     }}
                   >
-                    <Edit3 /> Editar
+                    <Edit3 /> Editar história
                   </Button>
                   <Button
                     variant="outline"
@@ -227,7 +240,7 @@ export default function ManagementPage() {
               <div className="manage-posters">
                 <div className="manage-posters-heading">
                   <h3>
-                    Pôsteres <span>{chapterPosters.length}</span>
+                    Quadros da história <span>{chapterPosters.length}</span>
                   </h3>
                   <Button
                     variant="outline"
@@ -236,12 +249,13 @@ export default function ManagementPage() {
                       setPosterChapter(chapter.id)
                     }}
                   >
-                    <Plus /> Novo pôster
+                    <Plus /> Novo quadro
                   </Button>
                 </div>
                 {chapterPosters.length ? (
                   chapterPosters.map((poster, posterIndex) => {
                     const art = posterImageUrl(poster, '480x0')
+                    const isPosicao = poster.kind === 'posicao'
                     return (
                       <article key={poster.id} className="manage-poster-row">
                         <div className="manage-poster-image">
@@ -250,7 +264,15 @@ export default function ManagementPage() {
                         </div>
                         <div className="manage-poster-copy">
                           <strong>{poster.title}</strong>
-                          <span>{art ? 'Ilustração pronta' : 'Aguardando ilustração'}</span>
+                          <span className="manage-poster-meta">
+                            <span className="badge-kind">
+                              {isPosicao ? '🥋 Posição' : '📖 História'}
+                            </span>
+                            <span>{art ? 'Arte pronta' : 'Aguardando arte'}</span>
+                            {poster.caption && (
+                              <span className="caption-preview">“{poster.caption}”</span>
+                            )}
+                          </span>
                         </div>
                         <div className="manage-actions">
                           <Button
@@ -282,9 +304,9 @@ export default function ManagementPage() {
                 ) : (
                   <div className="manage-empty">
                     <ImagePlus />
-                    <p>Nenhum pôster neste capítulo.</p>
+                    <p>Nenhum quadro nesta história ainda.</p>
                     <Button variant="link" onClick={() => setPosterChapter(chapter.id)}>
-                      Adicionar o primeiro
+                      Adicionar o primeiro quadro
                     </Button>
                   </div>
                 )}
@@ -317,12 +339,12 @@ export default function ManagementPage() {
               <Trash2 />
             </div>
             <DialogTitle>
-              Excluir {deleteTarget?.type === 'chapter' ? 'capítulo' : 'pôster'}?
+              Excluir {deleteTarget?.type === 'chapter' ? 'história' : 'quadro'}?
             </DialogTitle>
             <DialogDescription>
               “{deleteTarget?.title}” será removido.{' '}
               {deleteTarget?.type === 'chapter' &&
-                'Todos os pôsteres e progressos deste capítulo também serão excluídos.'}{' '}
+                'Todos os quadros e progressos desta história também serão excluídos.'}{' '}
               Esta ação não pode ser desfeita.
             </DialogDescription>
           </DialogHeader>
@@ -388,7 +410,7 @@ function ChapterFormDialog({
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
     const local: FieldErrors = {}
-    if (!draft.title.trim()) local.title = 'Informe o título do capítulo.'
+    if (!draft.title.trim()) local.title = 'Informe o título da história.'
     if (draft.title.length > 120) local.title = 'Use no máximo 120 caracteres.'
     if (draft.description.length > 500) local.description = 'Use no máximo 500 caracteres.'
     if (draft.emoji.length > 8) local.emoji = 'Use somente um emoji curto.'
@@ -412,8 +434,10 @@ function ChapterFormDialog({
     <Dialog open={open} onOpenChange={(value) => !value && close()}>
       <DialogContent className="form-dialog">
         <DialogHeader>
-          <DialogTitle>{chapter ? 'Editar capítulo' : 'Novo capítulo'}</DialogTitle>
-          <DialogDescription>Crie uma etapa clara na jornada do Álexis.</DialogDescription>
+          <DialogTitle>
+            {chapter ? 'Editar história / edição' : 'Nova história / edição'}
+          </DialogTitle>
+          <DialogDescription>Crie uma aventura em quadrinhos para o Álexis.</DialogDescription>
         </DialogHeader>
         <form className="studio-form" onSubmit={submit}>
           {errors.form && <div className="global-error">{errors.form}</div>}
@@ -425,16 +449,16 @@ function ChapterFormDialog({
                 maxLength={8}
               />
             </FormField>
-            <FormField label="Título" error={errors.title}>
+            <FormField label="Título da Edição" error={errors.title}>
               <TextInput
                 value={draft.title}
                 onChange={(event) => setDraft({ ...draft, title: event.target.value })}
-                placeholder="Ex.: Capítulo 5 — Raspagens"
+                placeholder="Ex.: Edição 1 — O Dia a Dia no Tatame"
               />
             </FormField>
           </div>
           <FormField
-            label="Descrição"
+            label="Sinopse / Descrição da História"
             error={errors.description}
             hint={`${draft.description.length}/500 caracteres`}
           >
@@ -442,10 +466,11 @@ function ChapterFormDialog({
               value={draft.description}
               onChange={(event) => setDraft({ ...draft, description: event.target.value })}
               rows={3}
+              placeholder="O que o Álexis e seu amigo de treino vão viver e aprender nesta história?"
             />
           </FormField>
           <div className="form-row">
-            <FormField label="Ordem" error={errors.order}>
+            <FormField label="Ordem da Edição" error={errors.order}>
               <TextInput
                 type="number"
                 min={1}
@@ -454,13 +479,13 @@ function ChapterFormDialog({
               />
             </FormField>
             <FormField
-              label="Capa do capítulo"
+              label="Capa da Edição"
               error={errors.cover}
               hint="PNG, JPG ou WebP · até 5 MB"
             >
               <label className="file-input">
                 <ImagePlus />
-                <span>{draft.cover?.name || 'Escolher imagem'}</span>
+                <span>{draft.cover?.name || 'Escolher capa'}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -485,7 +510,7 @@ function ChapterFormDialog({
               Cancelar
             </Button>
             <Button type="submit" disabled={busy}>
-              <Save /> {busy ? 'Salvando...' : 'Salvar capítulo'}
+              <Save /> {busy ? 'Salvando...' : 'Salvar história'}
             </Button>
           </DialogFooter>
         </form>
@@ -516,6 +541,8 @@ function PosterFormDialog({
       poster
         ? {
             title: poster.title,
+            caption: poster.caption || '',
+            kind: (poster.kind as 'historia' | 'posicao') || 'historia',
             kid_text: poster.kid_text,
             dad_tip: poster.dad_tip,
             chapter: poster.chapter,
@@ -547,9 +574,10 @@ function PosterFormDialog({
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
     const local: FieldErrors = {}
-    if (!draft.title.trim()) local.title = 'Informe o título do pôster.'
-    if (!draft.chapter) local.chapter = 'Escolha um capítulo.'
+    if (!draft.title.trim()) local.title = 'Informe o título do quadro.'
+    if (!draft.chapter) local.chapter = 'Escolha uma história.'
     if (draft.title.length > 120) local.title = 'Use no máximo 120 caracteres.'
+    if (draft.caption.length > 400) local.caption = 'Use no máximo 400 caracteres na legenda.'
     if (draft.kid_text.length > 400) local.kid_text = 'Use no máximo 400 caracteres.'
     if (draft.dad_tip.length > 1000) local.dad_tip = 'Use no máximo 1000 caracteres.'
     if (draft.image && draft.image.size > 10 * 1024 * 1024)
@@ -575,28 +603,42 @@ function PosterFormDialog({
     <Dialog open={open} onOpenChange={(value) => !value && close()}>
       <DialogContent className="form-dialog poster-form-dialog">
         <DialogHeader>
-          <DialogTitle>{poster ? 'Editar pôster' : 'Novo pôster'}</DialogTitle>
+          <DialogTitle>{poster ? 'Editar quadro do gibi' : 'Novo quadro do gibi'}</DialogTitle>
           <DialogDescription>
-            Adicione a arte e as duas formas de conversar sobre o movimento.
+            Defina o tipo do quadro (história do dia a dia ou posição ensinada), envie a ilustração
+            e escreva a legenda estilo gibi.
           </DialogDescription>
         </DialogHeader>
         <form className="studio-form" onSubmit={submit}>
           {errors.form && <div className="global-error">{errors.form}</div>}
-          <FormField label="Título" error={errors.title}>
+          <FormField label="Título do Quadro" error={errors.title}>
             <TextInput
               value={draft.title}
               onChange={(event) => setDraft({ ...draft, title: event.target.value })}
-              placeholder="Ex.: Raspagem Tesoura"
+              placeholder="Ex.: Montada Alta ou O Cumprimento com o Léo"
             />
           </FormField>
+
           <div className="form-row">
-            <FormField label="Capítulo" error={errors.chapter}>
+            <FormField label="Tipo do Quadro">
+              <select
+                className="text-input"
+                value={draft.kind}
+                onChange={(event) =>
+                  setDraft({ ...draft, kind: event.target.value as 'historia' | 'posicao' })
+                }
+              >
+                <option value="historia">📖 História (dia a dia / narrativa)</option>
+                <option value="posicao">🥋 Posição (técnica de Jiu-Jitsu)</option>
+              </select>
+            </FormField>
+            <FormField label="História / Edição" error={errors.chapter}>
               <select
                 className="text-input"
                 value={draft.chapter}
                 onChange={(event) => setDraft({ ...draft, chapter: event.target.value })}
               >
-                <option value="">Escolha um capítulo</option>
+                <option value="">Escolha uma história</option>
                 {chapters.map((chapter) => (
                   <option key={chapter.id} value={chapter.id}>
                     {chapter.title}
@@ -604,7 +646,7 @@ function PosterFormDialog({
                 ))}
               </select>
             </FormField>
-            <FormField label="Ordem" error={errors.order}>
+            <FormField label="Ordem (página)" error={errors.order}>
               <TextInput
                 type="number"
                 min={1}
@@ -613,37 +655,57 @@ function PosterFormDialog({
               />
             </FormField>
           </div>
+
           <FormField
-            label="Texto para o Álexis"
+            label="Legenda do Gibi (faixa amarela de narração)"
+            error={errors.caption}
+            hint={`${draft.caption.length}/400 caracteres · Narração da cena estilo gibi`}
+          >
+            <TextArea
+              value={draft.caption}
+              onChange={(event) => setDraft({ ...draft, caption: event.target.value })}
+              rows={2}
+              placeholder="Ex.: No sábado de manhã, Álexis amarra a faixa ansioso para encontrar o amigo Léo no tatame..."
+            />
+          </FormField>
+
+          <FormField
+            label="Fala no balão (para o Álexis)"
             error={errors.kid_text}
-            hint={`${draft.kid_text.length}/400 caracteres`}
+            hint={`${draft.kid_text.length}/400 caracteres · O que o papai ou personagens dizem`}
           >
             <TextArea
               value={draft.kid_text}
               onChange={(event) => setDraft({ ...draft, kid_text: event.target.value })}
-              rows={3}
-              placeholder="Uma frase divertida, simples e segura."
+              rows={2}
+              placeholder="Ex.: Proteja os braços, mexa o quadril e crie espaço para voltar a defender!"
             />
           </FormField>
+
           <FormField
-            label="Dica PARA O PAI"
+            label="Orientação PARA O PAPAI (100% oculta no Modo Criança)"
             error={errors.dad_tip}
             hint={`${draft.dad_tip.length}/1000 caracteres`}
           >
             <TextArea
               value={draft.dad_tip}
               onChange={(event) => setDraft({ ...draft, dad_tip: event.target.value })}
-              rows={4}
-              placeholder="Explique como orientar e o que observar durante o treino."
+              rows={3}
+              placeholder="Explique o que observar no treino, postura correta e como elogiar o filho com segurança."
             />
           </FormField>
-          <FormField label="Ilustração" error={errors.image} hint="PNG, JPG ou WebP · até 10 MB">
+
+          <FormField
+            label="Ilustração do Quadro"
+            error={errors.image}
+            hint="PNG, JPG, WebP ou SVG · até 10 MB"
+          >
             <label className="file-drop">
               <ImagePlus />
               <strong>
                 {draft.image?.name || (existingArt ? 'Trocar ilustração' : 'Escolher ilustração')}
               </strong>
-              <span>Toque para procurar o arquivo</span>
+              <span>Toque para selecionar a arte enviada</span>
               <input
                 type="file"
                 accept="image/*"
@@ -659,7 +721,7 @@ function PosterFormDialog({
             <img
               className="upload-preview poster-preview"
               src={preview || existingArt}
-              alt="Prévia da ilustração"
+              alt="Prévia da ilustração do quadrinho"
             />
           )}
           <DialogFooter>
@@ -667,7 +729,7 @@ function PosterFormDialog({
               Cancelar
             </Button>
             <Button type="submit" disabled={busy}>
-              <Save /> {busy ? 'Salvando...' : 'Salvar pôster'}
+              <Save /> {busy ? 'Salvando...' : 'Salvar quadro'}
             </Button>
           </DialogFooter>
         </form>
